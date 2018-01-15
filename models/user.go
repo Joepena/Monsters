@@ -4,6 +4,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/mgo.v2/bson"
 	"strings"
+	log "github.com/sirupsen/logrus"
 )
 
 type User struct {
@@ -17,10 +18,12 @@ type User struct {
 // running validations.
 func (u *User) Create(db *DB) error {
 	u.Email = strings.ToLower(u.Email)
+	log.Info(u.Password)
 	ph, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
+	log.Info(string(ph))
 	u.PasswordHash = string(ph)
 	return db.session.DB("auth").C("users").Insert(u)
 	return nil
@@ -28,16 +31,17 @@ func (u *User) Create(db *DB) error {
 func (u *User) Authenticate() bool {
 	collection := GetDBInstance().session.DB("auth").C("users")
 
-	ph, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return false
-	}
-	u.PasswordHash = string(ph)
+	passwordToAuth := u.Password
+	email := strings.ToLower(u.Email)
 
-	err = collection.Find(bson.M{"email": u.Email, "password_hash": u.PasswordHash}).One(&u)
+	err := collection.Find(bson.M{"email": email,}).One(&u)
 	if err != nil {
 		return false
 	}
 
+	err = bcrypt.CompareHashAndPassword([]byte(u.PasswordHash), []byte(passwordToAuth))
+	if err != nil {
+		return false
+	}
 	return true
 }

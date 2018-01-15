@@ -50,6 +50,7 @@ func App() *buffalo.App {
 		authGroup.Use(authenticateRequest)
 
 		app.POST("/user", createUserHandler)
+		app.POST("/login", loginHandler)
 	}
 
 	return app

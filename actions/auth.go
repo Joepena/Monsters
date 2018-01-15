@@ -59,19 +59,17 @@ func createUserHandler(c buffalo.Context) error {
 }
 
 func loginHandler(c buffalo.Context) error {
-	email := c.Value("email").(string)
-	password := c.Value("password").(string)
+	f := c.Request().Form
 
 	u := models.User{
-		Email:    email,
-		Password: password,
+		Email:    f.Get("email"),
+		Password: f.Get("password"),
 	}
-
+	log.Info(u)
 	validUser := u.Authenticate()
 	if !validUser {
 		err := errors.New("invalid credentials")
 		log.Error(err)
-		c.Flash().Add("error", err.Error())
 		return err
 	} else {
 		/**
@@ -86,5 +84,5 @@ func loginHandler(c buffalo.Context) error {
 		**/
 	}
 
-	return nil
+	return c.Render(201, render.JSON(map[string]string{"token": u.ID, "email": u.Email}))
 }
