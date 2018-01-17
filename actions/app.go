@@ -12,7 +12,7 @@ import (
 )
 
 // TODO: remove this from source later
-var SERVER_SECRET = []byte("057E3CE6B941756FD9CAB17D93C522F7C3745A78066A278E83999FFF547C5A8F")
+var SERVER_SECRET = []byte(envy.Get("SERVER_SECRET","super_secret"))
 
 // ENV is used to help switch settings based on where the
 // application is being run. Default is "development".

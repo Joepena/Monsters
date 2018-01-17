@@ -6,9 +6,14 @@ import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"sync"
+	"github.com/gobuffalo/envy"
+	"crypto/tls"
+	"net"
+	"strings"
 )
 
-const MONGOD_URL = "localhost:27017"
+var MONGOD_URL = envy.Get("MONGOD_URL","localhost:27017")
+var ON_ATLAS = envy.Get("ON_ATLAS", "false")
 
 var (
 	once       sync.Once
@@ -72,14 +77,37 @@ func GetDBInstance() *DB {
 }
 
 func establishMongoDBSession() *mgo.Session {
-	session, err := mgo.Dial(MONGOD_URL)
-	if err != nil {
-		panic(fmt.Sprintf("failed to establish session to %v. error: %v", MONGOD_URL, err.Error()))
+	var session *mgo.Session
+	var err error
+
+	if strings.EqualFold(ON_ATLAS, "true") { // if we are on MongoDB Atlas dial with TLS connec info
+		dialInfo, err := mgo.ParseURL(MONGOD_URL)
+		if err != nil {
+			panic(fmt.Sprintf("failed to establish session to %v. error: %v", MONGOD_URL, err.Error()))
+		}
+
+		tlsConfig := &tls.Config{}
+		dialInfo.DialServer = func(addr *mgo.ServerAddr) (net.Conn, error) {
+			conn, err := tls.Dial("tcp", addr.String(), tlsConfig)
+			return conn, err
+		}
+		session, err = mgo.DialWithInfo(dialInfo)
+		if err != nil {
+			panic(fmt.Sprintf("failed to establish session to %v. error: %v", MONGOD_URL, err.Error()))
+		}
+
+	} else {
+		session, err = mgo.Dial(MONGOD_URL)
+		if err != nil {
+			panic(fmt.Sprintf("failed to establish session to %v. error: %v", MONGOD_URL, err.Error()))
+		}
 	}
+
 	// Optional. Switch the session to a monotonic behavior.
 	session.SetMode(mgo.Monotonic, true)
 
 	return session
+
 }
 
 func (rR *ReadRequest) SetDB(dBName string) {
