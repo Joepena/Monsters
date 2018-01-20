@@ -46,11 +46,12 @@ func App() *buffalo.App {
 		}
 
 		// middleware
-		authGroup := app.Group("/auth")
-		authGroup.Use(authenticateRequest)
+		app.Use(authenticateRequest)
 
-		app.POST("/user", createUserHandler)
-		app.POST("/login", loginHandler)
+		authGroup := app.Group("/auth")
+		authGroup.Middleware.Skip(authenticateRequest, createUserHandler, loginHandler) // do not verify a token for these registration/login handlers
+		authGroup.POST("/user", createUserHandler)
+		authGroup.POST("/login", loginHandler)
 	}
 
 	return app

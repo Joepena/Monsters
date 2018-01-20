@@ -84,5 +84,5 @@ func loginHandler(c buffalo.Context) error {
 		**/
 	}
 
-	return c.Render(201, render.JSON(map[string]string{"token": u.ID, "email": u.Email}))
+	return nil
 }
