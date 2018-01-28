@@ -10,21 +10,15 @@ import (
 )
 
 func userMonstersHandler (c buffalo.Context) error {
-	// Get user data once logged in
-	u := models.User{
-		Email: "email",
-		Password: "pass",
-	}
-
-	validUser := u.Authenticate()
-	if !validUser {
-		return errors.New("invalid credentials")
-	}
-
 	dbInstance := models.GetDBInstance()
 
+	user, err := dbInstance.GetUserById(c.Param("userID"))
+	if err != nil {
+		return errors.New("User not found")
+	}
+
 	monsters := []models.Monster{}
-	for _, no := range u.Monsters {
+	for _, no := range user.Monsters {
 		monster, err := dbInstance.GetMonsterByNo(no)
 		if err != nil {
 			return err
@@ -35,14 +29,13 @@ func userMonstersHandler (c buffalo.Context) error {
 	return c.Render(201, render.JSON(map[string]interface{}{
 		"monsters": monsters,
 	}))
-
 }
 
 func createMonsterHandler (c buffalo.Context) error {
 	m := models.Monster{}
 	err := m.Create(models.GetDBInstance())
 	if err != nil {
-		return err
+		return errors.New("Could not create monster")
 	}
 	return c.Render(201, render.JSON(map[string]string{
 		"status": "monster created",
@@ -50,10 +43,9 @@ func createMonsterHandler (c buffalo.Context) error {
 }
 
 func monsterDataHandler (c buffalo.Context) error {
-
 	no, err := strconv.ParseInt(c.Param("monsterID"), 10, 32)
 	if err != nil {
-		return err
+		return errors.New("Invalid monster ID")
 	}
 
 	m := models.Monster{
@@ -62,7 +54,7 @@ func monsterDataHandler (c buffalo.Context) error {
 
 	err = m.Find(models.GetDBInstance())
 	if err != nil {
-		return err
+		return errors.New("Monster not found")
 	}
 
 	return c.Render(201, render.JSON(map[string]interface{}{
