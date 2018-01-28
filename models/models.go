@@ -56,6 +56,15 @@ func (db *DB) CreateCappedCollection(dbName string, collectionName string, capac
 	}
 }
 
+func (db *DB) GetMonsterByNo(no int32) (Monster, error) {
+	collection := db.session.DB("monsters").C("monsters")
+
+	var monster Monster
+	err := collection.Find(bson.M{"no": no}).One(&monster)
+
+	return monster, err
+}
+
 func (db *DB) GetUserById(id string) (User, error) {
 	c := db.session.DB("auth").C("users")
 
