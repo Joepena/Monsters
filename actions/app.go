@@ -6,9 +6,8 @@ import (
 	"github.com/gobuffalo/buffalo/middleware/ssl"
 	"github.com/gobuffalo/envy"
 	"github.com/unrolled/secure"
-
 	"github.com/gobuffalo/x/sessions"
-	"github.com/joepena/monsters/models"
+	"Monsters/models"
 )
 
 // TODO: remove this from source later
@@ -52,6 +51,10 @@ func App() *buffalo.App {
 		authGroup.Middleware.Skip(authenticateRequest, createUserHandler, loginHandler) // do not verify a token for these registration/login handlers
 		authGroup.POST("/user", createUserHandler)
 		authGroup.POST("/login", loginHandler)
+
+		app.GET("/user", userMonstersHandler)
+		app.GET("/monster/{monsterID}", monsterDataHandler)
+		app.POST("/monster", createMonsterHandler)
 	}
 
 	return app

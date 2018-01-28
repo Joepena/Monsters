@@ -3,7 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/joepena/monsters/actions"
+	//"github.com/joepena/monsters/actions"
+	"Monsters/actions"
 )
 
 func main() {
