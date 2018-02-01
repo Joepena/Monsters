@@ -8,11 +8,11 @@ import (
 )
 
 type User struct {
-	ID           string  `bson:"_id"`
-	Email        string  `bson:"email"`
-	Password     string  `bson:"-"`
-	PasswordHash string  `bson:"password_hash"`
-	Monsters	 []int32 `bson:"monsters"`
+	ID           string    `bson:"_id"`
+	Email        string    `bson:"email"`
+	Password     string    `bson:"-"`
+	PasswordHash string    `bson:"password_hash"`
+	Monsters	 []Monster `bson:"monsters"`
 }
 
 // Create wraps up the pattern of encrypting the password and

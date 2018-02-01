@@ -9,27 +9,34 @@ import (
 	"errors"
 )
 
-func userMonstersHandler (c buffalo.Context) error {
-	dbInstance := models.GetDBInstance()
-
-	user, err := dbInstance.GetUserById(c.Param("userID"))
-	if err != nil {
-		return errors.New("User not found")
-	}
-
-	monsters := []models.Monster{}
-	for _, no := range user.Monsters {
-		monster, err := dbInstance.GetMonsterByNo(no)
-		if err != nil {
-			return err
-		}
-		monsters = append(monsters, monster)
-	}
-
-	return c.Render(201, render.JSON(map[string]interface{}{
-		"monsters": monsters,
-	}))
-}
+//func getMonstersHandler (c buffalo.Context) error {
+//	db := models.GetDBInstance()
+//
+//	user, err := db.GetUserById(c.Param("userID"))
+//	if err != nil {
+//		return errors.New("User not found")
+//	}
+//
+//	monsters := []models.Monster{{}}
+//	for _, no := range user.Monsters {
+//		monster, err := db.GetMonsterByNo(no)
+//		if err != nil {
+//			return err
+//		}
+//		monsters = append(monsters, monster)
+//	}
+//
+//	if len(monsters) > 0 {
+//		return c.Render(200, render.JSON(map[string]interface{}{
+//			"monsters": monsters,
+//		}))
+//	}
+//
+//	c.Render(204, render.JSON(map[string]string{
+//		"message": "User has no monsters",
+//	}))
+//	return nil
+//}
 
 func createMonsterHandler (c buffalo.Context) error {
 	m := models.Monster{}
@@ -57,7 +64,7 @@ func monsterDataHandler (c buffalo.Context) error {
 		return errors.New("Monster not found")
 	}
 
-	return c.Render(201, render.JSON(map[string]interface{}{
+	return c.Render(200, render.JSON(map[string]interface{}{
 		"no": m.No,
 		"name": m.Name,
 		"type": m.Type,
