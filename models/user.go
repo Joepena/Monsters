@@ -15,7 +15,7 @@ type User struct {
 	Email        string `bson:"email"`
 	Password     string `bson:"-"`
 	PasswordHash string `bson:"password_hash"`
-	Monsters	 []int32 `bson:"monsters"`
+	Monsters	 []Monster `bson:"monsters"`
 }
 
 type AuthCounter struct {
