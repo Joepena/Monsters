@@ -38,7 +38,7 @@ import (
 //	return nil
 //}
 
-func createMonsterHandler (c buffalo.Context) error {
+func createMonsterHandler(c buffalo.Context) error {
 	m := models.Monster{}
 	err := m.Create(models.GetDBInstance())
 	if err != nil {
@@ -49,7 +49,7 @@ func createMonsterHandler (c buffalo.Context) error {
 	}))
 }
 
-func monsterDataHandler (c buffalo.Context) error {
+func monsterDataHandler(c buffalo.Context) error {
 	no, err := strconv.ParseInt(c.Param("monsterID"), 10, 32)
 	if err != nil {
 		return errors.New("Invalid monster ID")
@@ -68,7 +68,6 @@ func monsterDataHandler (c buffalo.Context) error {
 		"no": m.No,
 		"name": m.Name,
 		"type": m.Type,
-		"model": m.Model,
 		"hp": m.Hp,
 		"attack": m.Attack,
 		"defense": m.Defense,
