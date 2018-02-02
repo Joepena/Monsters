@@ -8,7 +8,6 @@ type Monster struct {
 	No      int32  `bson:"no"`
 	Name    string `bson:"name"`
 	Type    string `bson:"type"`
-	Model   string `bson:"model"`
 	Hp      int32  `bson:"hp"`
 	Attack  int32  `bson:"attack"`
 	Defense int32  `bson:"defense"`
@@ -22,7 +21,6 @@ func (m *Monster) Create(db *DB) error {
 		No:      25,
 		Name:    "Pikachu",
 		Type:    "Electric",
-		Model:   "uri.go/yvisalxjeelf",
 		Hp:      35,
 		Attack:  55,
 		Defense: 40,

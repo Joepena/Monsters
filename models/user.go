@@ -5,6 +5,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"strings"
 	log "github.com/sirupsen/logrus"
+	"errors"
 )
 
 type User struct {
@@ -35,7 +36,7 @@ func (u *User) Authenticate() bool {
 	passwordToAuth := u.Password
 	email := strings.ToLower(u.Email)
 
-	err := collection.Find(bson.M{"email": email,}).One(&u)
+	err := collection.Find(bson.M{"email": email}).One(&u)
 	if err != nil {
 		return false
 	}
@@ -45,4 +46,19 @@ func (u *User) Authenticate() bool {
 		return false
 	}
 	return true
+}
+
+func (u *User) AddMonster(id int32) error {
+	db := GetDBInstance()
+	c := db.session.DB("auth").C("users")
+
+	monster, err := db.GetMonsterByNo(id)
+	if err != nil {
+		return errors.New("monster not found")
+	}
+
+	query := bson.M{"email": u.Email}
+	change := bson.M{"$push": bson.M{"monsters": monster}}
+
+	return c.Update(query, change)
 }
