@@ -48,11 +48,11 @@ func (u *User) Authenticate() bool {
 	return true
 }
 
-func (u *User) AddMonster(id int32) error {
+func (u *User) AddMonster(no int32) error {
 	db := GetDBInstance()
 	c := db.session.DB("auth").C("users")
 
-	monster, err := db.GetMonsterByNo(id)
+	monster, err := db.GetMonsterByNo(no)
 	if err != nil {
 		return errors.New("monster not found")
 	}
@@ -68,5 +68,19 @@ func (u *User) RenameMonster(no int32, name string) error {
 
 	query := bson.M{"_id": u.ID, "monsters.no": no}
 	update := bson.M{"$set": bson.M{"monsters.$.name": name}}
+	return c.Update(query, update)
+}
+
+func (u *User) AddMonsterAttack(no int32, name string) error {
+	db := GetDBInstance()
+	c := db.session.DB("auth").C("users")
+
+	attack, err := db.GetAttackByName(name)
+	if err != nil {
+		return errors.New("attack not found")
+	}
+
+	query := bson.M{"_id": u.ID, "monsters.no": no}
+	update := bson.M{"$push": bson.M{"monsters.$.attacks": attack}}
 	return c.Update(query, update)
 }

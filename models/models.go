@@ -56,16 +56,6 @@ func (db *DB) CreateCappedCollection(dbName string, collectionName string, capac
 	}
 }
 
-/* Monster */
-func (db *DB) GetMonsterByNo(no int32) (Monster, error) {
-	collection := db.session.DB("monsters").C("monsters")
-
-	var monster Monster
-	err := collection.Find(bson.M{"no": no}).One(&monster)
-
-	return monster, err
-}
-
 /* User */
 func (db *DB) GetUserById(id string) (User, error) {
 	collection := db.session.DB("auth").C("users")
@@ -76,6 +66,27 @@ func (db *DB) GetUserById(id string) (User, error) {
 	return user, err
 }
 
+/* Monster */
+func (db *DB) GetMonsterByNo(no int32) (Monster, error) {
+	collection := db.session.DB("monsters").C("monsters")
+
+	var monster Monster
+	err := collection.Find(bson.M{"no": no}).One(&monster)
+
+	return monster, err
+}
+
+/* Attack */
+func (db *DB) GetAttackByName(name string) (Attack, error) {
+	collection := db.session.DB("monsters").C("attacks")
+
+	var attack Attack
+	err := collection.Find(bson.M{"name": name}).One(&attack)
+
+	return attack, err
+}
+
+/* DB */
 func GetDBInstance() *DB {
 	once.Do(func() {
 		dbInstance = DB{
