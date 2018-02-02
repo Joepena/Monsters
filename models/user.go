@@ -95,7 +95,24 @@ func (u *User) AddMonster(id int32) error {
 	}
 
 	query := bson.M{"email": u.Email}
-	change := bson.M{"$push": bson.M{"monsters": monster}}
+	update := bson.M{"$push": bson.M{"monsters": monster}}
 
-	return c.Update(query, change)
+	return c.Update(query, update)
+}
+
+func (u *User) RenameMonster(no int32, name string) error {
+	db := GetDBInstance()
+	c := db.session.DB("auth").C("users")
+
+	query := bson.M{
+		"_id": u.ID,
+		"monsters.no": no,
+	}
+	update := bson.M{
+		"$set": bson.M{
+			"monsters.$.name": name,
+		},
+	}
+
+	return c.Update(query, update)
 }

@@ -2,6 +2,7 @@ package models
 
 import (
 	"gopkg.in/mgo.v2/bson"
+	"errors"
 )
 
 type Monster struct {
@@ -17,17 +18,9 @@ type Monster struct {
 func (m *Monster) Create(db *DB) error {
 	c := db.session.DB("monsters").C("monsters")
 
-	monster := Monster{
-		No:      25,
-		Name:    "Pikachu",
-		Type:    "Electric",
-		Hp:      35,
-		Attack:  55,
-		Defense: 40,
-	}
-
-	if err := c.Insert(monster); err != nil {
-		return err
+	err := c.Insert(m)
+	if err != nil {
+		return errors.New("could not create monster")
 	}
 	return nil
 }
