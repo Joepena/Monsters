@@ -63,7 +63,10 @@ func createUserHandler(c buffalo.Context) error {
 		return err
 	}
 
-	c.Render(201, render.JSON(map[string]string{"token": u.ID, "email": u.Email}))
+	c.Render(201, render.JSON(map[string]string{
+		"token": u.ID,
+		"email": u.Email,
+	}))
 
 	return nil
 }
