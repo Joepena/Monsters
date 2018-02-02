@@ -57,6 +57,7 @@ func App() *buffalo.App {
 		app.PUT("/user/monster", renameMonsterHandler)
 
 		app.POST("/monster", createMonsterHandler)
+		app.POST("/monster/attack", createAttackHandler)
 	}
 
 	return app

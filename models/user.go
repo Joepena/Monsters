@@ -28,8 +28,8 @@ func (u *User) Create(db *DB) error {
 	log.Info(string(ph))
 	u.PasswordHash = string(ph)
 	return db.session.DB("auth").C("users").Insert(u)
-	return nil
 }
+
 func (u *User) Authenticate() bool {
 	collection := GetDBInstance().session.DB("auth").C("users")
 
