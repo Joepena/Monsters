@@ -49,6 +49,7 @@ func (u *User) Create() error {
 
 	return collection.Insert(u)
 }
+
 func (u *User) Authenticate() bool {
 	collection := GetDBInstance().session.DB("auth").C("users")
 

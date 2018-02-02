@@ -28,6 +28,24 @@ func createMonsterHandler(c buffalo.Context) error {
 	}))
 }
 
+func createAttackHandler(c buffalo.Context) error {
+	a := models.Attack{
+		Name: c.Param("name"),
+		Type: c.Param("type"),
+		Power: toInt(c.Param("power")),
+		Accuracy: toInt(c.Param("accuracy")),
+	}
+
+	err := a.Create(models.GetDBInstance())
+	if err != nil {
+		return err
+	}
+
+	return c.Render(201, render.JSON(map[string]interface{}{
+		"attack": a,
+	}))
+}
+
 func toInt(s string) int32 {
 	i, err := strconv.ParseInt(s, 10, 32)
 	if err != nil {
