@@ -6,9 +6,12 @@ import (
 	"github.com/gobuffalo/buffalo/middleware/ssl"
 	"github.com/gobuffalo/envy"
 	"github.com/unrolled/secure"
-
 	"github.com/gobuffalo/x/sessions"
+	"Monsters/models"
 )
+
+// TODO: remove this from source later
+var SERVER_SECRET = []byte(envy.Get("SERVER_SECRET","super_secret"))
 
 // ENV is used to help switch settings based on where the
 // application is being run. Default is "development".
@@ -20,6 +23,9 @@ var app *buffalo.App
 // application.
 func App() *buffalo.App {
 	if app == nil {
+		// init DB
+		models.GetDBInstance()
+
 		app = buffalo.New(buffalo.Options{
 			Env:          ENV,
 			SessionStore: sessions.Null{},
@@ -38,8 +44,21 @@ func App() *buffalo.App {
 			app.Use(middleware.ParameterLogger)
 		}
 
-		app.GET("/", HomeHandler)
+		// middleware
+		app.Use(authenticateRequest)
 
+		authGroup := app.Group("/auth")
+		authGroup.Middleware.Skip(authenticateRequest, createUserHandler, loginHandler) // do not verify a token for these registration/login handlers
+		authGroup.POST("/user", createUserHandler)
+		authGroup.POST("/login", loginHandler)
+
+		app.GET("/user/{userID}", userDataHandler)
+		app.PUT("/user/monster", renameMonsterHandler)
+		app.POST("/user/monster/{monsterNo}", addMonsterHandler)
+		app.POST("/user/monster/{monsterNo}/attack/{attackName}", addMonsterAttackHandler)
+
+		app.POST("/monster", createMonsterHandler)
+		app.POST("/monster/attack", createAttackHandler)
 	}
 
 	return app
