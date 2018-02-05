@@ -30,61 +30,57 @@ func getAuthToken(c buffalo.Context) (string, error) {
 
 	tokenString, _ := token.SignedString(SERVER_SECRET)
 
-	// logic to attach token to user obj
-	log.Infof("token generated %v", tokenString)
-
 	return tokenString, nil
 }
 
 func createUserHandler(c buffalo.Context) error {
+	f := c.Request().Form
+
+	err := validateCreateUserReqForm(f)
+	if err != nil {
+		return err
+	}
+
 	token, err := getAuthToken(c)
 	if err != nil {
 		log.Error(err)
 	}
 
-	f := c.Request().Form
-
-	if !validateCreateUserReqForm(f) {
-		c.Render(400, render.JSON(map[string]string{"message": "email and/or password are wrong. password must be at least 8 characters."}))
-		return nil
-	}
-
 	u := models.User{
-		ID:           token,
+		AuthToken:    token,
 		Email:        f.Get("email"),
 		Password:     f.Get("password"),
 		PasswordHash: "",
 	}
 
-	err = u.Create(models.GetDBInstance())
+	err = u.Create()
 
 	if err != nil {
 		log.Error(err)
 		return err
 	}
 
-	c.Render(201, render.JSON(map[string]string{"token": u.ID, "email": u.Email}))
+	c.Render(201, render.JSON(map[string]string{"token": u.AuthToken, "email": u.Email, "userId": u.ID}))
 
 	return nil
 }
 
-func validateCreateUserReqForm(values url.Values) bool {
+func validateCreateUserReqForm(values url.Values) error {
 	email := values.Get("email")
 	password := values.Get("password")
 
-	if email == "" || password == "" {
-		return false
+	if email == "" {
+		return errors.New("Empty email was provided.")
+	}
+	if password == "" || len(password) < 8 {
+		return errors.New("Password must be at least 8 characters.")
 	}
 
 	if !emailRegexp.MatchString(email) {
-		return false
+		return errors.New("Provide a valid email address.")
 	}
 
-	if len(password) < 8 {
-		return false
-	}
-
-	return true
+	return nil
 }
 
 func loginHandler(c buffalo.Context) error {
@@ -94,24 +90,15 @@ func loginHandler(c buffalo.Context) error {
 		Email:    f.Get("email"),
 		Password: f.Get("password"),
 	}
-	log.Info(u)
+
 	validUser := u.Authenticate()
 	if !validUser {
 		err := errors.New("invalid credentials")
 		log.Error(err)
 		return err
-	} else {
-		/**
-		// create valid session
-
-		s := c.Session()
-		s.Set("email", u.Email)
-		err := s.Save()
-		if err != nil {
-			return err
-		}
-		**/
 	}
+
+	c.Render(201, render.JSON(map[string]string{"token": u.AuthToken, "userId": u.ID}))
 
 	return nil
 }

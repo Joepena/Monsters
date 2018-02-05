@@ -65,6 +65,15 @@ func (db *DB) GetUserById(id string) (User, error) {
 	return user, err
 }
 
+func (db *DB) GetUserByAuthToken(token string) (User, error) {
+	collection := db.session.DB("auth").C("users")
+
+	var user User
+	err := collection.Find(bson.M{"auth_token": token}).One(&user)
+
+	return user, err
+}
+
 func GetDBInstance() *DB {
 	once.Do(func() {
 		dbInstance = DB{

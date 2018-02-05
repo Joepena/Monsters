@@ -23,7 +23,7 @@ func authenticateRequest(next buffalo.Handler) buffalo.Handler {
 
 		if claims, ok := token.Claims.(*AuthClaims); ok && token.Valid {
 			log.Infof("user: %v, expiration: %v", claims.UserId, claims.StandardClaims.ExpiresAt)
-			user, err := models.GetDBInstance().GetUserById(tokenString)
+			user, err := models.GetDBInstance().GetUserByAuthToken(tokenString)
 			if err != nil {
 				return err
 			}
