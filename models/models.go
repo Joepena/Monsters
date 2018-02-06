@@ -38,8 +38,8 @@ type WriteRequest struct {
 }
 
 func (db *DB) Write(wR *WriteRequest) {
-	collection := db.session.DB(wR.DbName).C(wR.CollectionName) // maybe can cache this later?
-	err := collection.Insert(wR.Data)
+	c := db.session.DB(wR.DbName).C(wR.CollectionName) // maybe can cache this later?
+	err := c.Insert(wR.Data)
 	if err != nil {
 		log.Fatal("failed to insert data into db. dbName: %v, collectionName: %v, data: %v, error: %v", wR.DbName, wR.CollectionName, wR.Data, err)
 	}
@@ -57,19 +57,19 @@ func (db *DB) CreateCappedCollection(dbName string, collectionName string, capac
 }
 
 func (db *DB) GetUserById(id string) (User, error) {
-	collection := db.session.DB("auth").C("users")
+	c := db.session.DB("auth").C("users")
 
 	var user User
-	err := collection.Find(bson.M{"_id": id}).One(&user)
+	err := c.Find(bson.M{"_id": id}).One(&user)
 
 	return user, err
 }
 
 func (db *DB) GetUserByAuthToken(token string) (User, error) {
-	collection := db.session.DB("auth").C("users")
+	c := db.session.DB("auth").C("users")
 
 	var user User
-	err := collection.Find(bson.M{"auth_token": token}).One(&user)
+	err := c.Find(bson.M{"auth_token": token}).One(&user)
 
 	return user, err
 }

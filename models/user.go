@@ -29,10 +29,10 @@ func (u *User) Create() error {
 
 	//check if email is already in DB
 	u.Email = strings.ToLower(u.Email)
-	_ = collection.Find(bson.M{"email": strings.ToLower(u.Email),}).One(&testU)
+	collection.Find(bson.M{"email": strings.ToLower(u.Email),}).One(&testU)
 
 	if testU.Email == u.Email {
-		return errors.New("Email is already in use.")
+		return errors.New("email is already in use")
 	}
 	// generate DB id
 	id, err := generateID()

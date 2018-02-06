@@ -28,7 +28,7 @@ func authenticateRequest(next buffalo.Handler) buffalo.Handler {
 				return err
 			}
 			c.Data()["User"] = user
-			log.Infof("User model was atttached: %v", c.Data()["User"].(models.User))
+			log.Infof("user model was atttached: %v", c.Data()["User"].(models.User))
 		} else {
 			return errors.New("Bad auth token!")
 		}

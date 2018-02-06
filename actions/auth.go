@@ -60,9 +60,7 @@ func createUserHandler(c buffalo.Context) error {
 		return err
 	}
 
-	c.Render(201, render.JSON(map[string]string{"token": u.AuthToken, "email": u.Email, "userId": u.ID}))
-
-	return nil
+	return 	c.Render(201, render.JSON(map[string]string{"token": u.AuthToken, "email": u.Email, "userId": u.ID}))
 }
 
 func validateCreateUserReqForm(values url.Values) error {
@@ -70,14 +68,14 @@ func validateCreateUserReqForm(values url.Values) error {
 	password := values.Get("password")
 
 	if email == "" {
-		return errors.New("Empty email was provided.")
+		return errors.New("empty email was provided")
 	}
 	if password == "" || len(password) < 8 {
-		return errors.New("Password must be at least 8 characters.")
+		return errors.New("password must be at least 8 characters")
 	}
 
 	if !emailRegexp.MatchString(email) {
-		return errors.New("Provide a valid email address.")
+		return errors.New("provide a valid email address")
 	}
 
 	return nil
@@ -98,7 +96,6 @@ func loginHandler(c buffalo.Context) error {
 		return err
 	}
 
-	c.Render(201, render.JSON(map[string]string{"token": u.AuthToken, "userId": u.ID}))
+	return c.Render(201, render.JSON(map[string]string{"token": u.AuthToken, "userId": u.ID}))
 
-	return nil
 }
