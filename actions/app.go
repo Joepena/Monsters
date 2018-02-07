@@ -8,7 +8,11 @@ import (
 	"github.com/unrolled/secure"
 
 	"github.com/gobuffalo/x/sessions"
+	"github.com/joepena/monsters/models"
 )
+
+// TODO: remove this from source later
+var SERVER_SECRET = []byte(envy.Get("SERVER_SECRET","super_secret"))
 
 // ENV is used to help switch settings based on where the
 // application is being run. Default is "development".
@@ -20,6 +24,9 @@ var app *buffalo.App
 // application.
 func App() *buffalo.App {
 	if app == nil {
+		// init DB
+		models.GetDBInstance()
+
 		app = buffalo.New(buffalo.Options{
 			Env:          ENV,
 			SessionStore: sessions.Null{},
@@ -38,8 +45,13 @@ func App() *buffalo.App {
 			app.Use(middleware.ParameterLogger)
 		}
 
-		app.GET("/", HomeHandler)
+		// middleware
+		app.Use(authenticateRequest)
 
+		authGroup := app.Group("/auth")
+		authGroup.Middleware.Skip(authenticateRequest, createUserHandler, loginHandler) // do not verify a token for these registration/login handlers
+		authGroup.POST("/user", createUserHandler)
+		authGroup.POST("/login", loginHandler)
 	}
 
 	return app
