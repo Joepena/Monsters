@@ -109,11 +109,11 @@ func (u *User) RenameMonster(no int32, name string) error {
 	return c.Update(query, update)
 }
 
-func (u *User) AddMonsterAttack(no int32, name string) error {
+func (u *User) AddMonsterAttack(no int32, id string) error {
 	db := GetDBInstance()
 	c := db.session.DB("auth").C("users")
 
-	attack, err := db.GetAttackByName(name)
+	attack, err := db.GetAttackById(id)
 	if err != nil {
 		return errors.New("attack not found")
 	}

@@ -18,7 +18,7 @@ func createMonsterHandler(c buffalo.Context) error {
 		Defense: toInt(c.Param("defense")),
 	}
 
-	err := m.Create(models.GetDBInstance())
+	err := m.Create()
 	if err != nil {
 		return err
 	}
@@ -30,13 +30,15 @@ func createMonsterHandler(c buffalo.Context) error {
 
 func createAttackHandler(c buffalo.Context) error {
 	a := models.Attack{
+		MonsterNo: toInt(c.Param("monster_no")),
 		Name: c.Param("name"),
 		Type: c.Param("type"),
 		Power: toInt(c.Param("power")),
 		Accuracy: toInt(c.Param("accuracy")),
+		AnimationID: toInt(c.Param("animation_id")),
 	}
 
-	err := a.Create(models.GetDBInstance())
+	err := a.Create()
 	if err != nil {
 		return err
 	}

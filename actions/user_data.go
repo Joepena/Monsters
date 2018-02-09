@@ -53,14 +53,14 @@ func addMonsterAttackHandler(c buffalo.Context) error {
 	user := c.Data()["User"].(models.User)
 
 	no := c.Param("monsterNo")
-	name := c.Param("attackName")
+	id := c.Param("attackID")
 
-	err := user.AddMonsterAttack(toInt(no), name)
+	err := user.AddMonsterAttack(toInt(no), id)
 	if err != nil {
 		return err
 	}
 
 	return c.Render(200, render.JSON(map[string]interface{}{
-		"status": name + " added",
+		"status": "attack added",
 	}))
 }
