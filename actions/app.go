@@ -52,10 +52,11 @@ func App() *buffalo.App {
 		authGroup.POST("/user", createUserHandler)
 		authGroup.POST("/login", loginHandler)
 
-		app.GET("/user/{userID}", userDataHandler)
-		app.PUT("/user/monster", renameMonsterHandler)
-		app.POST("/user/monster/{monsterNo}", addMonsterHandler)
-		app.POST("/user/monster/{monsterID}/attack/{attackID}", addMonsterAttackHandler)
+		userGroup := app.Group("/user")
+		userGroup.GET("/{userID}", userDataHandler)
+		userGroup.PUT("/monster/{monsterID}", renameMonsterHandler)
+		userGroup.POST("/monster/{monsterNo}", addMonsterHandler)
+		userGroup.POST("/monster/{monsterID}/attack/{attackID}", addMonsterAttackHandler)
 
 		app.POST("/monster", createMonsterHandler)
 		app.POST("/monster/attack", createAttackHandler)

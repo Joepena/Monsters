@@ -38,7 +38,7 @@ func addMonsterHandler(c buffalo.Context) error {
 func renameMonsterHandler(c buffalo.Context) error {
 	user := c.Data()["User"].(models.User)
 
-	id := c.Param("id")
+	id := c.Param("monsterID")
 	name := c.Param("name")
 
 	err := user.RenameMonster(id, name)
