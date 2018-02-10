@@ -10,11 +10,11 @@ import (
 )
 
 type User struct {
-	ID           string `bson:"_id"`
-	AuthToken    string `bson:"auth_token"`
-	Email        string `bson:"email"`
-	Password     string `bson:"-"`
-	PasswordHash string `bson:"password_hash"`
+	ID           string    `bson:"_id"`
+	AuthToken    string    `bson:"auth_token"`
+	Email        string    `bson:"email"`
+	Password     string    `bson:"-"`
+	PasswordHash string    `bson:"password_hash"`
 	Monsters	 []Monster `bson:"monsters"`
 }
 
