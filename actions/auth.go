@@ -4,11 +4,11 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/render"
+	"github.com/joepena/monsters/models"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"net/url"
 	"regexp"
-	"Monsters/models"
 )
 
 type AuthClaims struct {

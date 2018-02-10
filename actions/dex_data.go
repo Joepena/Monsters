@@ -3,7 +3,7 @@ package actions
 import (
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/render"
-	"Monsters/models"
+	"github.com/joepena/monsters/models"
 	"errors"
 	"strconv"
 )

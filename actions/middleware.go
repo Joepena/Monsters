@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gobuffalo/buffalo"
-	"Monsters/models"
+	"github.com/joepena/monsters/models"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 )

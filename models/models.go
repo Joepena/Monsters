@@ -58,10 +58,10 @@ func (db *DB) CreateCappedCollection(dbName string, collectionName string, capac
 
 /* User */
 func (db *DB) GetUserById(id string) (User, error) {
-	collection := db.session.DB("auth").C("users")
+	c := db.session.DB("auth").C("users")
 
 	var user User
-	err := collection.Find(bson.M{"_id": id}).One(&user)
+	err := c.Find(bson.M{"_id": id}).One(&user)
 
 	return user, err
 }
@@ -77,20 +77,20 @@ func (db *DB) GetUserByAuthToken(token string) (User, error) {
 
 /* Monster */
 func (db *DB) GetMonsterByNo(no int32) (Monster, error) {
-	collection := db.session.DB("dex").C("monsters")
+	c := db.session.DB("dex").C("monsters")
 
 	var monster Monster
-	err := collection.Find(bson.M{"no": no}).One(&monster)
+	err := c.Find(bson.M{"no": no}).One(&monster)
 
 	return monster, err
 }
 
 /* Attack */
 func (db *DB) GetAttackByID(id string) (Attack, error) {
-	collection := db.session.DB("dex").C("attacks")
+	c := db.session.DB("dex").C("attacks")
 
 	var attack Attack
-	err := collection.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&attack)
+	err := c.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&attack)
 
 	return attack, err
 }

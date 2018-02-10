@@ -2,7 +2,7 @@ package grifts
 
 import (
 	"github.com/gobuffalo/buffalo"
-	"Monsters/actions"
+	"github.com/joepena/monsters/actions"
 )
 
 func init() {

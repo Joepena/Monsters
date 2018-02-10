@@ -86,8 +86,8 @@ func generateID() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strconv.Itoa(counterDoc.AccountCount), nil
 
+	return strconv.Itoa(counterDoc.AccountCount), nil
 }
 
 func (u *User) AddMonster(no int32) error {
