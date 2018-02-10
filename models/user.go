@@ -146,7 +146,7 @@ func (u *User) ReplaceMonsterAttack(monsterID string, attackID string, slotNo in
 }
 
 func generateMonsterID() (string, error) {
-	c := GetDBInstance().session.DB("monsters").C("counters")
+	c := GetDBInstance().session.DB("dex").C("counters")
 	change := mgo.Change{
 		Update: bson.M{"$inc": bson.M{"monster_count": 1}},
 		ReturnNew: false,

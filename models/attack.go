@@ -13,7 +13,7 @@ type Attack struct {
 }
 
 func (a *Attack) Create() error {
-	c := GetDBInstance().session.DB("monsters").C("attacks")
+	c := GetDBInstance().session.DB("dex").C("attacks")
 
 	err := c.Insert(a)
 	if err != nil {

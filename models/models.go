@@ -77,7 +77,7 @@ func (db *DB) GetUserByAuthToken(token string) (User, error) {
 
 /* Monster */
 func (db *DB) GetMonsterByNo(no int32) (Monster, error) {
-	collection := db.session.DB("monsters").C("monsters")
+	collection := db.session.DB("dex").C("monsters")
 
 	var monster Monster
 	err := collection.Find(bson.M{"no": no}).One(&monster)
@@ -87,7 +87,7 @@ func (db *DB) GetMonsterByNo(no int32) (Monster, error) {
 
 /* Attack */
 func (db *DB) GetAttackByID(id string) (Attack, error) {
-	collection := db.session.DB("monsters").C("attacks")
+	collection := db.session.DB("dex").C("attacks")
 
 	var attack Attack
 	err := collection.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&attack)

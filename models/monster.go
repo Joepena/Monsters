@@ -14,7 +14,7 @@ type Monster struct {
 }
 
 func (m *Monster) Create() error {
-	c := GetDBInstance().session.DB("monsters").C("monsters")
+	c := GetDBInstance().session.DB("dex").C("monsters")
 
 	err := c.Insert(m)
 	if err != nil {
