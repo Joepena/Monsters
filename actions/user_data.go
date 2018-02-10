@@ -54,10 +54,11 @@ func renameMonsterHandler(c buffalo.Context) error {
 func addMonsterAttackHandler(c buffalo.Context) error {
 	user := c.Data()["User"].(models.User)
 
-	no := c.Param("monsterNo")
-	id := c.Param("attackID")
+	monsterID := c.Param("monsterID")
+	attackID := c.Param("attackID")
+	slotNo := toInt(c.Param("slot_no"))
 
-	err := user.AddMonsterAttack(toInt(no), id)
+	err := user.ReplaceMonsterAttack(monsterID, attackID, slotNo)
 	if err != nil {
 		return err
 	}

@@ -86,11 +86,11 @@ func (db *DB) GetMonsterByNo(no int32) (Monster, error) {
 }
 
 /* Attack */
-func (db *DB) GetAttackById(id string) (Attack, error) {
+func (db *DB) GetAttackByID(id string) (Attack, error) {
 	collection := db.session.DB("monsters").C("attacks")
 
 	var attack Attack
-	err := collection.Find(bson.M{"_id": id}).One(&attack)
+	err := collection.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&attack)
 
 	return attack, err
 }

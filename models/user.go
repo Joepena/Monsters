@@ -19,7 +19,11 @@ type User struct {
 }
 
 type AuthCounter struct {
-	AccountCount int`bson:"account_count"`
+	AccountCount int` bson:"account_count"`
+}
+
+type MonsterCounter struct {
+	MonsterCount int `bson:"monster_count"`
 }
 
 // Create wraps up the pattern of encrypting the password and
@@ -95,30 +99,65 @@ func (u *User) AddMonster(no int32) error {
 		return errors.New("monster not found")
 	}
 
+	id, err := generateMonsterID()
+	if err != nil {
+		return err
+	}
+	monster.ID = id
+
 	query := bson.M{"_id": u.ID}
 	update := bson.M{"$push": bson.M{"monsters": monster}}
 	return c.Update(query, update)
 }
 
 func (u *User) RenameMonster(no int32, name string) error {
-	db := GetDBInstance()
-	c := db.session.DB("auth").C("users")
+	c := GetDBInstance().session.DB("auth").C("users")
 
 	query := bson.M{"_id": u.ID, "monsters.no": no}
 	update := bson.M{"$set": bson.M{"monsters.$.name": name}}
 	return c.Update(query, update)
 }
 
-func (u *User) AddMonsterAttack(no int32, id string) error {
+func (u *User) ReplaceMonsterAttack(monsterID string, attackID string, slotNo int32) error {
 	db := GetDBInstance()
 	c := db.session.DB("auth").C("users")
 
-	attack, err := db.GetAttackById(id)
+	attack, err := db.GetAttackByID(attackID)
 	if err != nil {
 		return errors.New("attack not found")
 	}
+	attack.SlotNo = slotNo
 
-	query := bson.M{"_id": u.ID, "monsters.no": no}
-	update := bson.M{"$push": bson.M{"monsters.$.attacks": attack}}
+	for _, m := range u.Monsters {
+		if m.ID == monsterID && m.No != attack.MonsterNo {
+			return errors.New("invalid attack for this monster")
+		}
+	}
+
+	// Remove existing attack by slot no
+	query := bson.M{"_id": u.ID, "monsters.id": monsterID}
+	update := bson.M{"$pull": bson.M{"monsters.$.attacks": bson.M{"slot_no": slotNo}}}
+	c.Update(query, update)
+
+	 //Add new attack
+	query = bson.M{"_id": u.ID, "monsters.id": monsterID}
+	update = bson.M{"$push": bson.M{"monsters.$.attacks": attack}}
 	return c.Update(query, update)
+}
+
+func generateMonsterID() (string, error) {
+	c := GetDBInstance().session.DB("monsters").C("counters")
+	change := mgo.Change{
+		Update: bson.M{"$inc": bson.M{"monster_count": 1}},
+		ReturnNew: false,
+	}
+
+	var counterDoc MonsterCounter
+
+	_, err := c.Find(bson.M{"_id": "monster_counter"}).Apply(change, &counterDoc)
+	if err != nil {
+		return "", err
+	}
+
+	return strconv.Itoa(counterDoc.MonsterCount), nil
 }

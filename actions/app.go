@@ -55,7 +55,7 @@ func App() *buffalo.App {
 		app.GET("/user/{userID}", userDataHandler)
 		app.PUT("/user/monster", renameMonsterHandler)
 		app.POST("/user/monster/{monsterNo}", addMonsterHandler)
-		app.POST("/user/monster/{monsterNo}/attack/{attackID}", addMonsterAttackHandler)
+		app.POST("/user/monster/{monsterID}/attack/{attackID}", addMonsterAttackHandler)
 
 		app.POST("/monster", createMonsterHandler)
 		app.POST("/monster/attack", createAttackHandler)

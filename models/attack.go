@@ -3,6 +3,7 @@ package models
 import "errors"
 
 type Attack struct {
+	SlotNo		int32  `bson:"slot_no"`
 	MonsterNo   int32  `bson:"monster_no"`
 	Name        string `bson:"name"`
 	Type        string `bson:"type"`
