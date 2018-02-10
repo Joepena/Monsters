@@ -110,10 +110,10 @@ func (u *User) AddMonster(no int32) error {
 	return c.Update(query, update)
 }
 
-func (u *User) RenameMonster(no int32, name string) error {
+func (u *User) RenameMonster(id string, name string) error {
 	c := GetDBInstance().session.DB("auth").C("users")
 
-	query := bson.M{"_id": u.ID, "monsters.no": no}
+	query := bson.M{"_id": u.ID, "monsters.id": id}
 	update := bson.M{"$set": bson.M{"monsters.$.name": name}}
 	return c.Update(query, update)
 }
