@@ -32,6 +32,14 @@ func App() *buffalo.App {
 			SessionStore: sessions.Null{},
 			SessionName:  "_monsters_session",
 		})
+
+		app.Use(func (next buffalo.Handler) buffalo.Handler {
+			return func(c buffalo.Context) error {
+				// change the context to MonsterContext
+				return next(MonsterContext{c})
+			}
+		})
+
 		// Automatically redirect to SSL
 		app.Use(ssl.ForceSSL(secure.Options{
 			SSLRedirect:     ENV == "production",
