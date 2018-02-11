@@ -7,13 +7,14 @@ import (
 	"github.com/pkg/errors"
 	"gopkg.in/mgo.v2"
 	"strconv"
+	"regexp"
 )
 
 type User struct {
 	ID           string `bson:"_id"`
 	AuthToken    string `bson:"auth_token"`
-	Email        string `bson:"email"`
-	Password     string `bson:"-"`
+	Email        string `bson:"email" json:"email"`
+	Password     string `bson:"-" json:"password"`
 	PasswordHash string `bson:"password_hash"`
 }
 
@@ -21,19 +22,18 @@ type AuthCounter struct {
 	AccountCount int`bson:"account_count"`
 }
 
+var emailRegexp = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+
 // Create wraps up the pattern of encrypting the password and
 // running validations.
 func (u *User) Create() error {
 	collection := GetDBInstance().session.DB("auth").C("users")
-	var testU User
 
-	//check if email is already in DB
-	u.Email = strings.ToLower(u.Email)
-	collection.Find(bson.M{"email": strings.ToLower(u.Email),}).One(&testU)
-
-	if testU.Email == u.Email {
-		return errors.New("email is already in use")
+	err := u.validate()
+	if err != nil {
+		return err
 	}
+
 	// generate DB id
 	id, err := generateID()
 	if err != nil {
@@ -48,6 +48,7 @@ func (u *User) Create() error {
 
 	return collection.Insert(u)
 }
+
 func (u *User) Authenticate() bool {
 	collection := GetDBInstance().session.DB("auth").C("users")
 
@@ -67,6 +68,34 @@ func (u *User) Authenticate() bool {
 	return true
 }
 
+func (u *User) validate() error {
+	u.Email = strings.ToLower(u.Email)
+
+	if u.Email == "" {
+		return errors.New("empty email was provided")
+	}
+	if u.Password == "" || len(u.Password) < 8 {
+		return errors.New("password must be at least 8 characters")
+	}
+
+	if !emailRegexp.MatchString(u.Email) {
+		return errors.New("provide a valid email address")
+	}
+
+	collection := GetDBInstance().session.DB("auth").C("users")
+	var testU User
+
+	//check if email is already in DB
+	u.Email = strings.ToLower(u.Email)
+	collection.Find(bson.M{"email": strings.ToLower(u.Email),}).One(&testU)
+
+	if testU.Email == u.Email {
+		return errors.New("email is already in use")
+	}
+
+	return nil
+}
+
 func generateID() (string, error) {
 	collection := GetDBInstance().session.DB("auth").C("counters")
 	change := mgo.Change{
@@ -83,3 +112,4 @@ func generateID() (string, error) {
 	return strconv.Itoa(counterDoc.AccountCount), nil
 
 }
+

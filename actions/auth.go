@@ -7,8 +7,6 @@ import (
 	"github.com/joepena/monsters/models"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
-	"net/url"
-	"regexp"
 )
 
 type AuthClaims struct {
@@ -16,8 +14,6 @@ type AuthClaims struct {
 	// Auth payload in here
 	jwt.StandardClaims
 }
-
-var emailRegexp = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 
 func getAuthToken(c buffalo.Context) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
@@ -34,11 +30,11 @@ func getAuthToken(c buffalo.Context) (string, error) {
 }
 
 func createUserHandler(c buffalo.Context) error {
-	f := c.Request().Form
+	u := &models.User{}
 
-	err := validateCreateUserReqForm(f)
+	err := c.Bind(u)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	token, err := getAuthToken(c)
@@ -46,12 +42,7 @@ func createUserHandler(c buffalo.Context) error {
 		log.Error(err)
 	}
 
-	u := models.User{
-		AuthToken:    token,
-		Email:        f.Get("email"),
-		Password:     f.Get("password"),
-		PasswordHash: "",
-	}
+	u.AuthToken = token
 
 	err = u.Create()
 
@@ -63,30 +54,12 @@ func createUserHandler(c buffalo.Context) error {
 	return 	c.Render(201, render.JSON(map[string]string{"token": u.AuthToken, "email": u.Email, "userId": u.ID}))
 }
 
-func validateCreateUserReqForm(values url.Values) error {
-	email := values.Get("email")
-	password := values.Get("password")
-
-	if email == "" {
-		return errors.New("empty email was provided")
-	}
-	if password == "" || len(password) < 8 {
-		return errors.New("password must be at least 8 characters")
-	}
-
-	if !emailRegexp.MatchString(email) {
-		return errors.New("provide a valid email address")
-	}
-
-	return nil
-}
-
 func loginHandler(c buffalo.Context) error {
-	f := c.Request().Form
+	u := &models.User{}
 
-	u := models.User{
-		Email:    f.Get("email"),
-		Password: f.Get("password"),
+	err := c.Bind(u)
+	if err != nil {
+		return errors.WithStack(err)
 	}
 
 	validUser := u.Authenticate()
