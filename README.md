@@ -14,16 +14,17 @@ If you point your browser to [http://127.0.0.1:3000](http://127.0.0.1:3000) you 
 ```
 POST /auth/user
 
-params:
-    email:     test@email.com
-    password:  password
+{
+    "email":     "test@email.com",
+    "password":  "password"
+}
 ```
 ```
 Returns:
 {
-    "email":  "test@email.com",
-    "token":  "iOiJIUzI1NiIsInR5cCI6IkpX",
-    "userId": "1234"
+    "email":   "test@email.com",
+    "token":   "iOiJIUzI1NiIsInR5cCI6IkpX",
+    "userId":  "1234"
 }
 ```
 
@@ -31,15 +32,16 @@ Returns:
 ```
 POST /auth/login
 
-params:
-    email:     test@email.com
-    password:  password
+{
+    "email":     "test@email.com",
+    "password":  "password"
+}
 ```
 ```
 Returns:
 {
-    "token":  "iOiJIUzI1NiIsInR5cCI6IkpX",
-    "userId": "1234"
+    "token":   "iOiJIUzI1NiIsInR5cCI6IkpX",
+    "userId":  "1234"
 }
 ```
 
@@ -47,34 +49,37 @@ Returns:
 
 ##### Get user data by ID
 ```
-GET /user/{userID}
+GET /user/
 
-header:
-    authorization:  <auth_token>
+{
+    "userID": "1234"
+}
+
+header: "authorization":  <auth_token>
 ```
 ```
 Returns:
 {
-    "email":    "test@email.com",
-    "id":       "1234",
-    "monsters": [
+    "email":     "test@email.com",
+    "id":        "1234",
+    "monsters":  [
         {
-            "ID": "2345",
-            "No": 66,
-            "Name": "Machop",
-            "Type": "Fighting",
-            "Hp": 70,
-            "Attack": 80,
-            "Defense": 50,
-            "Attacks": [
+            "ID":       "2345",
+            "No":       66,
+            "Name":     "Machop",
+            "Type":     "Fighting",
+            "Hp":       70,
+            "Attack":   80,
+            "Defense":  50,
+            "Attacks":  [
                 {
-                    "SlotNo": 0,
-                    "MonsterNo": 66,
-                    "Name": "Karate Chop",
-                    "Type": "Normal",
-                    "Power": 50,
-                    "Accuracy": 100,
-                    "AnimationID": 2
+                    "SlotNo":       0,
+                    "MonsterNo":    66,
+                    "Name":         "Karate Chop",
+                    "Type":         "Normal",
+                    "Power":        50,
+                    "Accuracy":     100,
+                    "AnimationID":  2
                 },
                 { ... }
             ]
@@ -86,10 +91,13 @@ Returns:
 
 ##### Add monster to user
 ```
-POST /user/monster/{monsterNo}
+POST /user/monster/
 
-header:
-    authorization: <auth_token>
+{
+    "monsterNo":  66
+}
+
+header: "authorization":  <auth_token>
 ```
 ```
 Returns:
@@ -100,13 +108,14 @@ Returns:
 
 ##### Rename monster
 ```
-PUT /user/monster/{monsterID}
+PUT /user/monster/
 
-header:
-    authorization: <auth_token>
+{
+    "monsterID":  "123",
+    "name":       "MaCHOMP"
+}
 
-params:
-    name: MaCHOMP
+header: "authorization":  <auth_token>
 ```
 ```
 Returns:
@@ -117,13 +126,15 @@ Returns:
 
 ##### Add attack to user's monster
 ```
-POST /user/monster/{monsterID}/attack/{attackID}
+POST /user/monster/attack/
 
-header:
-    authorization: <auth_token>
+{
+    "attackID":   "234",
+    "monsterID":  "123",
+    "slotNo":     2
+}
 
-params:
-    slot_no: 2
+header: "authorization":  <auth_token>
 ```
 ```
 Returns:
@@ -138,29 +149,29 @@ Returns:
 ```
 POST /dex/monster
 
-header:
-    authorization:  <auth_token>
+{
+    "no":       66,
+    "name":     "Machop",
+    "type":     "Fighting",
+    "hp":       70,
+    "attack":   80,
+    "defense":  50,
+}
 
-params:
-    no:       66
-    name:     Machop
-    type:     Fighting
-    hp:       70
-    attack:   80
-    defense:  50
+header: "authorization":  <auth_token>
 ```
 ```
 Returns:
 {
     "monster": {
-        "ID": "",
-        "No": 66,
-        "Name": "Machop",
-        "Type": "Fighting",
-        "Hp": 70,
-        "Attack": 80,
-        "Defense": 50,
-        "Attacks": null
+        "ID":       "",
+        "No":       66,
+        "Name":     "Machop",
+        "Type":     "Fighting",
+        "Hp":       70,
+        "Attack":   80,
+        "Defense":  50,
+        "Attacks":  null
     }
 }
 ```
@@ -169,28 +180,28 @@ Returns:
 ```
 POST /dex/attack
 
-header:
-    authorization:  <auth_token>
+{
+    "monster_no":    66,
+    "name":          "Karate Chop",
+    "type":          "Normal",
+    "power":         50,
+    "accuracy":      100,
+    "animation_id":  2
+}
 
-params:
-    monster_no:    66
-    name:          Karate Chop
-    type:          Normal
-    power:         50
-    accuracy:      100
-    animation_id:  2
+header: "authorization":  <auth_token>
 ```
 ```
 Returns:
 {
     "attack": {
-        "SlotNo": 0,
-        "MonsterNo": 66,
-        "Name": "Karate Chop",
-        "Type": "Normal",
-        "Power": 50,
-        "Accuracy": 100,
-        "AnimationID": 2
+        "SlotNo":       0,
+        "MonsterNo":    66,
+        "Name":         "Karate Chop",
+        "Type":         "Normal",
+        "Power":        50,
+        "Accuracy":     100,
+        "AnimationID":  2
     }
 }
 ```
