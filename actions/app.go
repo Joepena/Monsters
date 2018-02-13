@@ -7,7 +7,8 @@ import (
 	"github.com/gobuffalo/envy"
 	"github.com/unrolled/secure"
 	"github.com/gobuffalo/x/sessions"
-	"github.com/joepena/monsters/models"
+	//"github.com/joepena/monsters/models"
+	"github.com/villejacob/monsters/models"
 )
 
 // TODO: remove this from source later
