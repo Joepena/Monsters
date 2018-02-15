@@ -116,11 +116,11 @@ func (u *User) AddMonster(no int32) error {
 	return c.Update(query, update)
 }
 
-func (u *User) RenameMonster(id string, name string) error {
+func (u *User) RenameMonster(m *Monster) error {
 	c := GetDBInstance().session.DB("auth").C("users")
 
-	query := bson.M{"_id": u.ID, "monsters.id": id}
-	update := bson.M{"$set": bson.M{"monsters.$.name": name}}
+	query := bson.M{"_id": u.ID, "monsters.id": m.ID}
+	update := bson.M{"$set": bson.M{"monsters.$.name": m.Name}}
 	return c.Update(query, update)
 }
 

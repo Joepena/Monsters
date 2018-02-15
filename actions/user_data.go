@@ -51,7 +51,7 @@ func renameMonsterHandler(c buffalo.Context) error {
 		return errors.WithStack(err)
 	}
 
-	err = user.RenameMonster(m.ID, m.Name)
+	err = user.RenameMonster(m)
 	if err != nil {
 		return errors.WithStack(err)
 	}
