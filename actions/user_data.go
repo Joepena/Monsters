@@ -23,6 +23,37 @@ func userDataHandler(c buffalo.Context) error {
 	}))
 }
 
+func userAnimationsHandler(c buffalo.Context) error {
+	db := models.GetDBInstance()
+
+	user, err := db.GetUserById(c.Param("userID"))
+	if err != nil {
+		return errors.New("user not found")
+	}
+
+	type animation struct {
+		MonsterNo    int32
+		AnimationIDs []int32
+	}
+	var animations []animation
+
+	for _, monster := range user.Monsters {
+		var ids []int32
+		for _, attack := range monster.Attacks {
+			ids = append(ids, attack.AnimationID)
+		}
+		a := animation{
+			MonsterNo:    monster.No,
+			AnimationIDs: ids,
+		}
+		animations = append(animations, a)
+	}
+
+	return c.Render(200, render.JSON(map[string]interface{}{
+		"animations": animations,
+	}))
+}
+
 func addMonsterHandler(c buffalo.Context) error {
 	user := c.Data()["User"].(models.User)
 	m := &models.Monster{}

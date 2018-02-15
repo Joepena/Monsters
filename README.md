@@ -85,6 +85,28 @@ Returns:
 }
 ```
 
+##### Get user animations by ID
+```
+GET /user/{userID}/animations
+
+header: "authorization":  <auth_token>
+```
+```
+Returns:
+{
+    "animations": [
+        {
+            "MonsterNo":    66,
+            "AnimationIDs": [2, 3, 4, 5]
+        },
+        {
+            "MonsterNo":    7,
+            "AnimationIDs": [2, 6, 8, 9]
+        }
+    ]
+}
+```
+
 ##### Add monster to user
 ```
 POST /user/monster/
