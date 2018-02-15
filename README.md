@@ -49,7 +49,7 @@ Returns:
 
 ##### Get user data by ID
 ```
-GET /user/{user_id}
+GET /user/{userID}
 
 header: "authorization":  <auth_token>
 ```
@@ -90,7 +90,7 @@ Returns:
 POST /user/monster/
 
 {
-    "monster_no":  66
+    "monsterNo":  66
 }
 
 header: "authorization":  <auth_token>
@@ -107,8 +107,8 @@ Returns:
 PUT /user/monster/
 
 {
-    "monster_id":  "123",
-    "name":        "MaCHOMP"
+    "monsterID":  "123",
+    "name":       "MaCHOMP"
 }
 
 header: "authorization":  <auth_token>
@@ -125,9 +125,9 @@ Returns:
 POST /user/monster/attack/
 
 {
-    "attack_id":   "234",
-    "monster_id":  "123",
-    "slot_no":     2
+    "attackID":   "234",
+    "monsterID":  "123",
+    "slotNo":     2
 }
 
 header: "authorization":  <auth_token>
@@ -146,12 +146,12 @@ Returns:
 POST /dex/monster
 
 {
-    "monster_no":  66,
-    "name":        "Machop",
-    "type":        "Fighting",
-    "hp":          70,
-    "attack":      80,
-    "defense":     50,
+    "monsterNo":  66,
+    "name":       "Machop",
+    "type":       "Fighting",
+    "hp":         70,
+    "attack":     80,
+    "defense":    50,
 }
 
 header: "authorization":  <auth_token>
@@ -177,12 +177,12 @@ Returns:
 POST /dex/attack
 
 {
-    "monster_no":    66,
-    "name":          "Karate Chop",
-    "type":          "Normal",
-    "power":         50,
-    "accuracy":      100,
-    "animation_id":  2
+    "monsterNo":    66,
+    "name":         "Karate Chop",
+    "type":         "Normal",
+    "power":        50,
+    "accuracy":     100,
+    "animationID":  2
 }
 
 header: "authorization":  <auth_token>
