@@ -4,7 +4,7 @@ import (
 	"github.com/gobuffalo/buffalo"
 	//"github.com/joepena/monsters/models"
 	"github.com/villejacob/monsters/models"
-	"errors"
+	"github.com/pkg/errors"
 	"github.com/gobuffalo/buffalo/render"
 )
 
@@ -25,8 +25,14 @@ func userDataHandler(c buffalo.Context) error {
 
 func addMonsterHandler(c buffalo.Context) error {
 	user := c.Data()["User"].(models.User)
+	m := &models.Monster{}
 
-	err := user.AddMonster(toInt(c.Param("monsterNo")))
+	err := c.Bind(m)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	err = user.AddMonster(m.No)
 	if err != nil {
 		return err
 	}
@@ -38,28 +44,33 @@ func addMonsterHandler(c buffalo.Context) error {
 
 func renameMonsterHandler(c buffalo.Context) error {
 	user := c.Data()["User"].(models.User)
+	m := &models.Monster{}
 
-	id := c.Param("monsterID")
-	name := c.Param("name")
-
-	err := user.RenameMonster(id, name)
+	err := c.Bind(m)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
+	}
+
+	err = user.RenameMonster(m.ID, m.Name)
+	if err != nil {
+		return errors.WithStack(err)
 	}
 
 	return c.Render(200, render.JSON(map[string]interface{}{
-		"status": "monster renamed to " + name,
+		"status": "monster renamed to " + m.Name,
 	}))
 }
 
 func addMonsterAttackHandler(c buffalo.Context) error {
 	user := c.Data()["User"].(models.User)
+	a := &models.AddAttackParams{}
 
-	monsterID := c.Param("monsterID")
-	attackID := c.Param("attackID")
-	slotNo := toInt(c.Param("slot_no"))
+	err := c.Bind(a)
+	if err != nil {
+		return errors.WithStack(err)
+	}
 
-	err := user.ReplaceMonsterAttack(monsterID, attackID, slotNo)
+	err = user.ReplaceMonsterAttack(a)
 	if err != nil {
 		return err
 	}

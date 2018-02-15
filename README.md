@@ -49,11 +49,7 @@ Returns:
 
 ##### Get user data by ID
 ```
-GET /user/
-
-{
-    "userID": "1234"
-}
+GET /user/{user_id}
 
 header: "authorization":  <auth_token>
 ```
@@ -94,7 +90,7 @@ Returns:
 POST /user/monster/
 
 {
-    "monsterNo":  66
+    "monster_no":  66
 }
 
 header: "authorization":  <auth_token>
@@ -111,8 +107,8 @@ Returns:
 PUT /user/monster/
 
 {
-    "monsterID":  "123",
-    "name":       "MaCHOMP"
+    "monster_id":  "123",
+    "name":        "MaCHOMP"
 }
 
 header: "authorization":  <auth_token>
@@ -129,9 +125,9 @@ Returns:
 POST /user/monster/attack/
 
 {
-    "attackID":   "234",
-    "monsterID":  "123",
-    "slotNo":     2
+    "attack_id":   "234",
+    "monster_id":  "123",
+    "slot_no":     2
 }
 
 header: "authorization":  <auth_token>
@@ -150,12 +146,12 @@ Returns:
 POST /dex/monster
 
 {
-    "no":       66,
-    "name":     "Machop",
-    "type":     "Fighting",
-    "hp":       70,
-    "attack":   80,
-    "defense":  50,
+    "monster_no":  66,
+    "name":        "Machop",
+    "type":        "Fighting",
+    "hp":          70,
+    "attack":      80,
+    "defense":     50,
 }
 
 header: "authorization":  <auth_token>

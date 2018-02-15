@@ -3,13 +3,13 @@ package models
 import "errors"
 
 type Monster struct {
-	ID		string   `bson:"id"` //not _id, set when added to a user
-	No      int32    `bson:"no"`
-	Name    string   `bson:"name"`
-	Type    string   `bson:"type"`
-	Hp      int32    `bson:"hp"`
-	Attack  int32    `bson:"attack"`
-	Defense int32    `bson:"defense"`
+	ID		string   `bson:"id" json:"monsterID"` //not _id, set when added to a user
+	No      int32    `bson:"no" json:"monsterNo"`
+	Name    string   `bson:"name" json:"name"`
+	Type    string   `bson:"type" json:"type"`
+	Hp      int32    `bson:"hp" json:"hp"`
+	Attack  int32    `bson:"attack" json:"attack"`
+	Defense int32    `bson:"defense" json:"defense"`
 	Attacks []Attack `bson:"attacks"`
 }
 

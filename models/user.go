@@ -18,6 +18,12 @@ type User struct {
 	Monsters	 []Monster `bson:"monsters"`
 }
 
+type AddAttackParams struct {
+	AttackID  string `json:"attackID"`
+	MonsterID string `json:"monsterID"`
+	SlotNo    int32  `json:"slotNo"`
+}
+
 type AuthCounter struct {
 	AccountCount int` bson:"account_count"`
 }
@@ -118,29 +124,29 @@ func (u *User) RenameMonster(id string, name string) error {
 	return c.Update(query, update)
 }
 
-func (u *User) ReplaceMonsterAttack(monsterID string, attackID string, slotNo int32) error {
+func (u *User) ReplaceMonsterAttack(a *AddAttackParams) error {
 	db := GetDBInstance()
 	c := db.session.DB("auth").C("users")
 
-	attack, err := db.GetAttackByID(attackID)
+	attack, err := db.GetAttackByID(a.AttackID)
 	if err != nil {
 		return errors.New("attack not found")
 	}
-	attack.SlotNo = slotNo
+	attack.SlotNo = a.SlotNo
 
 	for _, m := range u.Monsters {
-		if m.ID == monsterID && m.No != attack.MonsterNo {
+		if m.ID == a.MonsterID && m.No != attack.MonsterNo {
 			return errors.New("invalid attack for this monster")
 		}
 	}
 
 	// Remove existing attack by slot no
-	query := bson.M{"_id": u.ID, "monsters.id": monsterID}
-	update := bson.M{"$pull": bson.M{"monsters.$.attacks": bson.M{"slot_no": slotNo}}}
+	query := bson.M{"_id": u.ID, "monsters.id": a.MonsterID}
+	update := bson.M{"$pull": bson.M{"monsters.$.attacks": bson.M{"slot_no": a.SlotNo}}}
 	c.Update(query, update)
 
 	 //Add new attack
-	query = bson.M{"_id": u.ID, "monsters.id": monsterID}
+	query = bson.M{"_id": u.ID, "monsters.id": a.MonsterID}
 	update = bson.M{"$push": bson.M{"monsters.$.attacks": attack}}
 	return c.Update(query, update)
 }

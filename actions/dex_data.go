@@ -5,21 +5,18 @@ import (
 	"github.com/gobuffalo/buffalo/render"
 	//"github.com/joepena/monsters/models"
 	"github.com/villejacob/monsters/models"
-	"errors"
-	"strconv"
+	"github.com/pkg/errors"
 )
 
 func createMonsterHandler(c buffalo.Context) error {
-	m := models.Monster{
-		No:      toInt(c.Param("no")),
-		Name:    c.Param("name"),
-		Type:    c.Param("type"),
-		Hp:      toInt(c.Param("hp")),
-		Attack:  toInt(c.Param("attack")),
-		Defense: toInt(c.Param("defense")),
+	m := &models.Monster{}
+
+	err := c.Bind(m)
+	if err != nil {
+		return errors.WithStack(err)
 	}
 
-	err := m.Create()
+	err = m.Create()
 	if err != nil {
 		return err
 	}
@@ -30,16 +27,14 @@ func createMonsterHandler(c buffalo.Context) error {
 }
 
 func createAttackHandler(c buffalo.Context) error {
-	a := models.Attack{
-		MonsterNo: toInt(c.Param("monster_no")),
-		Name: c.Param("name"),
-		Type: c.Param("type"),
-		Power: toInt(c.Param("power")),
-		Accuracy: toInt(c.Param("accuracy")),
-		AnimationID: toInt(c.Param("animation_id")),
+	a := &models.Attack{}
+
+	err := c.Bind(a)
+	if err != nil {
+		return errors.WithStack(err)
 	}
 
-	err := a.Create()
+	err = a.Create()
 	if err != nil {
 		return err
 	}
@@ -47,12 +42,4 @@ func createAttackHandler(c buffalo.Context) error {
 	return c.Render(201, render.JSON(map[string]interface{}{
 		"attack": a,
 	}))
-}
-
-func toInt(s string) int32 {
-	i, err := strconv.ParseInt(s, 10, 32)
-	if err != nil {
-		errors.New("invalid int")
-	}
-	return int32(i)
 }
