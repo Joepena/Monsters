@@ -1,6 +1,6 @@
 package models
 
-import "errors"
+import "github.com/pkg/errors"
 
 type Monster struct {
 	ID		string   `bson:"id" json:"monsterID"` //not _id, set when added to a user

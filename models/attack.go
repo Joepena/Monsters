@@ -1,6 +1,6 @@
 package models
 
-import "errors"
+import "github.com/pkg/errors"
 
 type Attack struct {
 	SlotNo		int32  `bson:"slot_no"`
