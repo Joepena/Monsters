@@ -11,15 +11,26 @@ import (
 )
 
 type User struct {
-	ID           string `bson:"_id"`
-	AuthToken    string `bson:"auth_token"`
-	Email        string `bson:"email" json:"email"`
-	Password     string `bson:"-" json:"password"`
-	PasswordHash string `bson:"password_hash"`
+	ID           string    `bson:"_id"`
+	AuthToken    string    `bson:"auth_token"`
+	Email        string    `bson:"email"`
+	Password     string    `bson:"-"`
+	PasswordHash string    `bson:"password_hash"`
+	Monsters	 []Monster `bson:"monsters"`
+}
+
+type AddAttackParams struct {
+	AttackID  string `json:"attackID"`
+	MonsterID string `json:"monsterID"`
+	SlotNo    int32  `json:"slotNo"`
 }
 
 type AuthCounter struct {
-	AccountCount int`bson:"account_count"`
+	AccountCount int` bson:"account_count"`
+}
+
+type MonsterCounter struct {
+	MonsterCount int `bson:"monster_count"`
 }
 
 var emailRegexp = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
@@ -55,7 +66,7 @@ func (u *User) Authenticate() bool {
 	passwordToAuth := u.Password
 	email := strings.ToLower(u.Email)
 
-	err := collection.Find(bson.M{"email": email,}).One(&u)
+	err := collection.Find(bson.M{"email": email}).One(&u)
 	if err != nil {
 		return false
 	}
@@ -109,7 +120,78 @@ func generateID() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strconv.Itoa(counterDoc.AccountCount), nil
 
+	return strconv.Itoa(counterDoc.AccountCount), nil
 }
 
+func (u *User) AddMonster(no int32) error {
+	db := GetDBInstance()
+	c := db.session.DB("auth").C("users")
+
+	monster, err := db.GetMonsterByNo(no)
+	if err != nil {
+		return errors.New("monster not found")
+	}
+
+	id, err := generateMonsterID()
+	if err != nil {
+		return err
+	}
+	monster.ID = id
+
+	query := bson.M{"_id": u.ID}
+	update := bson.M{"$push": bson.M{"monsters": monster}}
+	return c.Update(query, update)
+}
+
+func (u *User) RenameMonster(m *Monster) error {
+	c := GetDBInstance().session.DB("auth").C("users")
+
+	query := bson.M{"_id": u.ID, "monsters.id": m.ID}
+	update := bson.M{"$set": bson.M{"monsters.$.name": m.Name}}
+	return c.Update(query, update)
+}
+
+func (u *User) ReplaceMonsterAttack(a *AddAttackParams) error {
+	db := GetDBInstance()
+	c := db.session.DB("auth").C("users")
+
+	attack, err := db.GetAttackByID(a.AttackID)
+	if err != nil {
+		return errors.New("attack not found")
+	}
+	attack.SlotNo = a.SlotNo
+
+	for _, m := range u.Monsters {
+		if m.ID == a.MonsterID && m.No != attack.MonsterNo {
+			return errors.New("invalid attack for this monster")
+		}
+	}
+
+	// Remove existing attack by slot no
+	query := bson.M{"_id": u.ID, "monsters.id": a.MonsterID}
+	update := bson.M{"$pull": bson.M{"monsters.$.attacks": bson.M{"slot_no": a.SlotNo}}}
+	c.Update(query, update)
+
+	 //Add new attack
+	query = bson.M{"_id": u.ID, "monsters.id": a.MonsterID}
+	update = bson.M{"$push": bson.M{"monsters.$.attacks": attack}}
+	return c.Update(query, update)
+}
+
+func generateMonsterID() (string, error) {
+	c := GetDBInstance().session.DB("dex").C("counters")
+	change := mgo.Change{
+		Update: bson.M{"$inc": bson.M{"monster_count": 1}},
+		ReturnNew: false,
+	}
+
+	var counterDoc MonsterCounter
+
+	_, err := c.Find(bson.M{"_id": "monster_counter"}).Apply(change, &counterDoc)
+	if err != nil {
+		return "", err
+	}
+
+	return strconv.Itoa(counterDoc.MonsterCount), nil
+}

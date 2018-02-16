@@ -6,7 +6,6 @@ import (
 	"github.com/gobuffalo/buffalo/middleware/ssl"
 	"github.com/gobuffalo/envy"
 	"github.com/unrolled/secure"
-
 	"github.com/gobuffalo/x/sessions"
 	"github.com/joepena/monsters/models"
 )
@@ -52,6 +51,17 @@ func App() *buffalo.App {
 		authGroup.Middleware.Skip(authenticateRequest, createUserHandler, loginHandler) // do not verify a token for these registration/login handlers
 		authGroup.POST("/user", createUserHandler)
 		authGroup.POST("/login", loginHandler)
+
+		userGroup := app.Group("/user")
+		userGroup.GET("/{userID}", userDataHandler)
+		userGroup.GET("/{userID}/animations", userAnimationsHandler)
+		userGroup.PUT("/monster", renameMonsterHandler)
+		userGroup.POST("/monster", addMonsterHandler)
+		userGroup.POST("/monster/attack", addMonsterAttackHandler)
+
+		dexGroup := app.Group("/dex")
+		dexGroup.POST("/monster", createMonsterHandler)
+		dexGroup.POST("/attack", createAttackHandler)
 	}
 
 	return app
