@@ -62,7 +62,7 @@ func App() *buffalo.App {
 
 		userGroup := app.Group("/user")
 		userGroup.GET("/{userID}", userDataHandler)
-		userGroup.GET("/{userID}/animations", userAnimationsHandler)
+		userGroup.GET("/{userID}/assets", userAssetDataHandler)
 		userGroup.PUT("/monster", renameMonsterHandler)
 		userGroup.POST("/monster", addMonsterHandler)
 		userGroup.POST("/monster/attack", addMonsterAttackHandler)
@@ -70,6 +70,8 @@ func App() *buffalo.App {
 		dexGroup := app.Group("/dex")
 		dexGroup.POST("/monster", createMonsterHandler)
 		dexGroup.POST("/attack", createAttackHandler)
+
+		app.GET("/download/{assetID}", downloadHandler)
 	}
 
 	return app

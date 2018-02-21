@@ -22,7 +22,7 @@ func userDataHandler(c buffalo.Context) error {
 	}))
 }
 
-func userAnimationsHandler(c buffalo.Context) error {
+func userAssetDataHandler(c buffalo.Context) error {
 	db := models.GetDBInstance()
 
 	user, err := db.GetUserById(c.Param("userID"))
@@ -30,26 +30,26 @@ func userAnimationsHandler(c buffalo.Context) error {
 		return errors.New("user not found")
 	}
 
-	type animation struct {
+	type assetSet struct {
 		MonsterNo    int32
 		AnimationIDs []int32
 	}
-	var animations []animation
+	var assetSets []assetSet
 
 	for _, monster := range user.Monsters {
 		var ids []int32
 		for _, attack := range monster.Attacks {
 			ids = append(ids, attack.AnimationID)
 		}
-		a := animation{
+		a := assetSet{
 			MonsterNo:    monster.No,
 			AnimationIDs: ids,
 		}
-		animations = append(animations, a)
+		assetSets = append(assetSets, a)
 	}
 
 	return c.Render(200, render.JSON(map[string]interface{}{
-		"animations": animations,
+		"assetSets": assetSets,
 	}))
 }
 
