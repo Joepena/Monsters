@@ -5,6 +5,7 @@ import "github.com/pkg/errors"
 type Monster struct {
 	ID		string   `bson:"id" json:"monsterID"` //not _id, set when added to a user
 	No      int32    `bson:"no" json:"monsterNo"`
+	AssetID int32    `bson:"asset_id" json:"assetID"`
 	Name    string   `bson:"name" json:"name"`
 	Type    string   `bson:"type" json:"type"`
 	Hp      int32    `bson:"hp" json:"hp"`
