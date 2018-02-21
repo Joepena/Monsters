@@ -24,32 +24,38 @@ func userDataHandler(c buffalo.Context) error {
 
 func userAssetDataHandler(c buffalo.Context) error {
 	db := models.GetDBInstance()
+	userID := c.Param("userID")
 
-	user, err := db.GetUserById(c.Param("userID"))
+	user, err := db.GetUserById(userID)
 	if err != nil {
 		return errors.New("user not found")
 	}
 
-	type assetSet struct {
+	type MonsterAsset struct {
+		Name         string
 		MonsterNo    int32
-		AnimationIDs []int32
+		AssetID      int32
+		AnimationAssetIDs []int32
 	}
-	var assetSets []assetSet
+	var assets []MonsterAsset
 
 	for _, monster := range user.Monsters {
 		var ids []int32
 		for _, attack := range monster.Attacks {
-			ids = append(ids, attack.AnimationID)
+			ids = append(ids, attack.AssetID)
 		}
-		a := assetSet{
-			MonsterNo:    monster.No,
-			AnimationIDs: ids,
+		mA := MonsterAsset{
+			Name: monster.Name,
+			MonsterNo: monster.No,
+			AssetID: monster.AssetID,
+			AnimationAssetIDs: ids,
 		}
-		assetSets = append(assetSets, a)
+		assets = append(assets, mA)
 	}
 
 	return c.Render(200, render.JSON(map[string]interface{}{
-		"assetSets": assetSets,
+		"userID": userID,
+		"assets": assets,
 	}))
 }
 
