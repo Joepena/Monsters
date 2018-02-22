@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: poke-server
+  labels:
+    app: poke-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poke-server
+  template:
+    metadata:
+      labels:
+        app: poke-server
+    spec:
+      containers:
+        - image: poke-server
+          name: poke-server
+          env:
+          - name: ON_ATLAS
+            value: "true"
+          - name: MONGODB_URL
+            valueFrom:
+              secretKeyRef:
+                name: atlas
+                key: connection_string
+          - name: SERVER_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: server-secret
+                key: secret
+          ports:
+            - containerPort: 3000
+              name: poke-server
+          volumeMounts:
+            - name: asset-persistent-storage
+              mountPath: /var/www/html
+      volumes:
+        - name: asset-persistent-storage
+          gcePersistentDisk:
+            pdName: asset-disk
+            fsType: ext4
