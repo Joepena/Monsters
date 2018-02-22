@@ -15,11 +15,13 @@ spec:
         app: poke-server
     spec:
       containers:
-        - image: poke-server
+        - image: gcr.io/poke-monsters-server/poke-server:v1
           name: poke-server
           env:
           - name: ON_ATLAS
             value: "true"
+          - name: ASSET_DIR
+            value: /var/data
           - name: MONGODB_URL
             valueFrom:
               secretKeyRef:
@@ -35,7 +37,7 @@ spec:
               name: poke-server
           volumeMounts:
             - name: asset-persistent-storage
-              mountPath: /var/www/html
+              mountPath: /var/data
       volumes:
         - name: asset-persistent-storage
           gcePersistentDisk:

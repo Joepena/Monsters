@@ -10,17 +10,13 @@ import (
 	"github.com/joepena/monsters/models"
 )
 
-// TODO: remove this from source later
-var SERVER_SECRET = []byte(envy.Get("SERVER_SECRET","super_secret"))
+var (
+	ENV = envy.Get("GO_ENV", "development")
+	SERVER_SECRET = []byte(envy.Get("SERVER_SECRET","super_secret"))
+	ASSET_DIR = envy.Get("ASSET_DIR","/data")
+	app *buffalo.App
+)
 
-// ENV is used to help switch settings based on where the
-// application is being run. Default is "development".
-var ENV = envy.Get("GO_ENV", "development")
-var app *buffalo.App
-
-// App is where all routes and middleware for buffalo
-// should be defined. This is the nerve center of your
-// application.
 func App() *buffalo.App {
 	if app == nil {
 		// init DB

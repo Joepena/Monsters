@@ -23,7 +23,7 @@ func (m *MonsterContext) RenderFile(file string) error {
 		m.LogField("render", time.Since(start))
 	}()
 
-	p := path.Join("data", file)
+	p := path.Join(ASSET_DIR, file)
 	_, fileName := path.Split(file)
 
 	//Check if file exists and open
