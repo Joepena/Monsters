@@ -2,6 +2,7 @@
   "monsters": [
     {
       "id":      "",
+      "asset_id": "",
       "no":      7,
       "name":    "Squirtle",
       "type":    "Water",
@@ -49,6 +50,7 @@
     },
     {
       "id":      "",
+      "asset_id": "1",
       "no":      66,
       "name":    "Machop",
       "type":    "Fighting",
@@ -98,6 +100,7 @@
   "attacks": [
     {
       "monster_no":   7,
+      "asset_id": "",
       "name":         "Tackle",
       "type":         "Normal",
       "power":        40,
@@ -106,6 +109,7 @@
     },
     {
       "monster_no":   7,
+      "asset_id": "",
       "name":         "Tail Whip",
       "type":         "Normal",
       "power":        0,
@@ -114,6 +118,7 @@
     },
     {
       "monster_no":   7,
+      "asset_id": "",
       "name":         "Water Gun",
       "type":         "Water",
       "power":        40,
@@ -122,6 +127,7 @@
     },
     {
       "monster_no":   7,
+      "asset_id": "",
       "name":         "Bubble",
       "type":         "Water",
       "power":        40,
@@ -130,6 +136,7 @@
     },
     {
       "monster_no":   66,
+      "asset_id": "",
       "name":         "Leer",
       "type":         "Normal",
       "power":        0,
@@ -138,6 +145,7 @@
     },
     {
       "monster_no":   66,
+      "asset_id": "",
       "name":         "Low Kick",
       "type":         "Fighting",
       "power":        80,
@@ -146,6 +154,7 @@
     },
     {
       "monster_no":   66,
+      "asset_id": "",
       "name":         "Karate Chop",
       "type":         "Fighting",
       "power":        50,
@@ -154,6 +163,7 @@
     },
     {
       "monster_no":   66,
+      "asset_id": "",
       "name":         "Low Sweep",
       "type":         "Fighting",
       "power":        65,
