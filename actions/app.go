@@ -13,7 +13,7 @@ import (
 var (
 	ENV = envy.Get("GO_ENV", "development")
 	SERVER_SECRET = []byte(envy.Get("SERVER_SECRET","super_secret"))
-	ASSET_DIR = envy.Get("ASSET_DIR","/data")
+	ASSET_DIR = envy.Get("ASSET_DIR","./data")
 	app *buffalo.App
 )
 
@@ -50,7 +50,6 @@ func App() *buffalo.App {
 
 		// middleware
 		app.Use(authenticateRequest)
-
 		authGroup := app.Group("/auth")
 		authGroup.Middleware.Skip(authenticateRequest, createUserHandler, loginHandler) // do not verify a token for these registration/login handlers
 		authGroup.POST("/user", createUserHandler)

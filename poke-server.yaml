@@ -15,7 +15,7 @@ spec:
         app: poke-server
     spec:
       containers:
-        - image: gcr.io/poke-monsters-server/poke-server:v1
+        - image: gcr.io/poke-monsters-server/poke-server
           name: poke-server
           env:
           - name: ON_ATLAS
