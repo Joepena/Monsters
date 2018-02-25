@@ -2,7 +2,8 @@ package actions
 
 import (
 	"github.com/gobuffalo/buffalo"
-	"github.com/joepena/monsters/models"
+	//"github.com/joepena/monsters/models"
+	"github.com/villejacob/monsters/models"
 	"github.com/pkg/errors"
 	"github.com/gobuffalo/buffalo/render"
 )
