@@ -17,6 +17,7 @@ type User struct {
 	Password     string    `bson:"-"`
 	PasswordHash string    `bson:"password_hash"`
 	Monsters	 []Monster `bson:"monsters"`
+	Battles	     []Battle  `bson:"battles"`
 }
 
 type AddAttackParams struct {
