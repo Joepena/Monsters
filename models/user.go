@@ -196,3 +196,12 @@ func generateMonsterID() (string, error) {
 
 	return strconv.Itoa(counterDoc.MonsterCount), nil
 }
+
+func (u *User) AddBattle(b *Battle) error {
+	db := GetDBInstance()
+	c := db.session.DB("auth").C("users")
+
+	query := bson.M{"_id": u.ID}
+	update := bson.M{"$push": bson.M{"battles": b}}
+	return c.Update(query, update)
+}
