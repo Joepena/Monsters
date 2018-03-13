@@ -22,7 +22,7 @@ var emailRegexp = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0
 // Create wraps up the pattern of encrypting the password and
 // running validations.
 func (u *User) Create() error {
-	collection := GetDBInstance().session.DB("auth").C("users")
+	collection := GetDBInstance().Session.DB("auth").C("users")
 
 	err := u.validate()
 	if err != nil {
@@ -45,7 +45,7 @@ func (u *User) Create() error {
 }
 
 func (u *User) Authenticate() bool {
-	collection := GetDBInstance().session.DB("auth").C("users")
+	collection := GetDBInstance().Session.DB("auth").C("users")
 
 	passwordToAuth := u.Password
 	email := strings.ToLower(u.Email)
@@ -77,7 +77,7 @@ func (u *User) validate() error {
 		return errors.New("provide a valid email address")
 	}
 
-	collection := GetDBInstance().session.DB("auth").C("users")
+	collection := GetDBInstance().Session.DB("auth").C("users")
 	var testU User
 
 	//check if email is already in DB
@@ -93,7 +93,7 @@ func (u *User) validate() error {
 
 func (u *User) AddMonster(no int32) error {
 	db := GetDBInstance()
-	c := db.session.DB("auth").C("users")
+	c := db.Session.DB("auth").C("users")
 
 	monster, err := db.GetMonsterByNo(no)
 	if err != nil {
@@ -112,7 +112,7 @@ func (u *User) AddMonster(no int32) error {
 }
 
 func (u *User) RenameMonster(m *Monster) error {
-	c := GetDBInstance().session.DB("auth").C("users")
+	c := GetDBInstance().Session.DB("auth").C("users")
 
 	query := bson.M{"_id": u.ID, "monsters.id": m.ID}
 	update := bson.M{"$set": bson.M{"monsters.$.name": m.Name}}
@@ -121,7 +121,7 @@ func (u *User) RenameMonster(m *Monster) error {
 
 func (u *User) ReplaceMonsterAttack(a *AddAttackParams) error {
 	db := GetDBInstance()
-	c := db.session.DB("auth").C("users")
+	c := db.Session.DB("auth").C("users")
 
 	attack, err := db.GetAttackByID(a.AttackID)
 	if err != nil {

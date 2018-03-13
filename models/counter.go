@@ -19,7 +19,7 @@ type AssetCounter struct {
 }
 
 func generateMonsterID() (string, error) {
-	c := GetDBInstance().session.DB("dex").C("counters")
+	c := GetDBInstance().Session.DB("dex").C("counters")
 	change := mgo.Change{
 		Update: bson.M{"$inc": bson.M{"monster_count": 1}},
 		ReturnNew: false,
@@ -36,7 +36,7 @@ func generateMonsterID() (string, error) {
 }
 
 func generateAssetId() (string, error) {
-	collection := GetDBInstance().session.DB("dex").C("counters")
+	collection := GetDBInstance().Session.DB("dex").C("counters")
 	change := mgo.Change{
 		Update: bson.M{"$inc": bson.M{"asset_count": 1}},
 		ReturnNew: false,
@@ -53,7 +53,7 @@ func generateAssetId() (string, error) {
 }
 
 func generateAccountID() (string, error) {
-	collection := GetDBInstance().session.DB("auth").C("counters")
+	collection := GetDBInstance().Session.DB("auth").C("counters")
 	change := mgo.Change{
 		Update: bson.M{"$inc": bson.M{"account_count": 1}},
 		ReturnNew: false,
