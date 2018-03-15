@@ -153,6 +153,20 @@ func (u *User) RenameMonster(m *Monster) error {
 	return c.Update(query, update)
 }
 
+func (u *User) UpdateMonsterStats(m *Monster) error {
+	c := GetDBInstance().session.DB("auth").C("users")
+
+	query := bson.M{"_id": u.ID, "monsters.id": m.ID}
+	update := bson.M{"$inc": bson.M{
+		"monsters.$.hits": 			m.Stats.Hits,
+		"monsters.$.misses": 			m.Stats.Misses,
+		"monsters.$.damage_dealt":    m.Stats.DamageDealt,
+		"monsters.$.damage_received": m.Stats.DamageReceived,
+	}}
+
+	return c.Update(query, update)
+}
+
 func (u *User) ReplaceMonsterAttack(a *AddAttackParams) error {
 	db := GetDBInstance()
 	c := db.session.DB("auth").C("users")

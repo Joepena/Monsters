@@ -94,6 +94,25 @@ func renameMonsterHandler(c buffalo.Context) error {
 	}))
 }
 
+func updateMonsterStatsHandler(c buffalo.Context) error {
+	user := c.Data()["User"].(models.User)
+	m := &models.Monster{}
+
+	err := c.Bind(m)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	err = user.UpdateMonsterStats(m)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	return c.Render(200, render.JSON(map[string]interface{}{
+		"status": "monster stats updated",
+	}))
+}
+
 func addMonsterAttackHandler(c buffalo.Context) error {
 	user := c.Data()["User"].(models.User)
 	a := &models.AddAttackParams{}
