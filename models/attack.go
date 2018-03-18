@@ -3,7 +3,7 @@ package models
 import "github.com/pkg/errors"
 
 type Attack struct {
-	SlotNo		int32  `bson:"slot_no"`
+	SlotNo		int32  `bson:"slot_no" json:"slotNo"`
 	MonsterNo   int32  `bson:"monster_no" json:"monsterNo"`
 	AssetID     int32    `bson:"asset_id" json:"assetID"`
 	Name        string `bson:"name" json:"name"`
