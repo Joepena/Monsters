@@ -74,7 +74,10 @@ Returns:
             "hits": 230,
             "misses": 122,
             "damageDealt": 14000,
-            "damageReceived": 2000
+            "damageReceived": 2000,
+            "enemiesFought": 42,
+            "enemiesDefeated": 12,
+            "faints": 4
         },
         { ... }
     ],
@@ -159,7 +162,10 @@ PUT /user/monster/stats
 	"hits": 2,
 	"misses": 4,
 	"damageDealt": 200,
-	"damageReceived": 150
+	"damageReceived": 150,
+	"enemiesFought": 1,
+	"enemiesDefeated": 1,
+	"faints": 0
 }
 
 header: "authorization":  <auth_token>
@@ -244,7 +250,10 @@ Returns:
         "hits": 0,
         "misses": 0,
         "damageDealt": 0,
-        "damageReceived": 0
+        "damageReceived": 0,
+        "enemiesFought": 0,
+        "enemiesDefeated": 0,
+        "faints": 0
     }
 }
 ```
@@ -295,20 +304,23 @@ Returns:
 ### Monster
 > Note: Monsters exist in the `dex` database under the `monsters` collection. These monsters have all base stats with no set ID, and are identified by the `No` field.
 
-| Field          | Type      | Description
-| -------------- | :-------: | ---------
-| ID             | string    | Set once added to a user
-| No             | int       | Monster number in Dex
-| Name           | string    | --
-| Type           | string    | --
-| Hp             | int       | --
-| Attack	     | int       | --
-| Defense        | int       | --
-| Attacks        | []Attack  | Array of monster's learned attacks
-| Hits           | int       | Total number of successful attacks
-| Misses         | int       | Total number of missed attacks
-| DamageDealt    | int       | Total damage done to other monsters
-| DamageReceived | int       | Total damage received from other monsters
+| Field           | Type      | Description
+| --------------- | :-------: | ---------
+| ID              | string    | Set once added to a user
+| No              | int       | Monster number in Dex
+| Name            | string    | --
+| Type            | string    | --
+| Hp              | int       | --
+| Attack	      | int       | --
+| Defense         | int       | --
+| Attacks         | []Attack  | Array of monster's learned attacks
+| Hits            | int       | Total number of successful attacks
+| Misses          | int       | Total number of missed attacks
+| DamageDealt     | int       | Total damage done to other monsters
+| DamageReceived  | int       | Total damage received from other monsters
+| EnemiesFought   | int       | Number of enemies fought
+| EnemiesDefeated | int       | Number of enemies defeated
+| Faints          | int       | Number of times defeated by a monster
 
 ### Attack
 > Note: Attacks are located in the `dex` database under the `attacks` collection. 
