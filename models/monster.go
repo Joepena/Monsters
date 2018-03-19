@@ -3,7 +3,7 @@ package models
 import "github.com/pkg/errors"
 
 type Monster struct {
-	ID		string   `bson:"id"      json:"monsterID"` //not _id, set when added to a user
+	ID      string   `bson:"id"      json:"monsterID"` //not _id, set when added to a user
 	No      int32    `bson:"no"      json:"monsterNo"`
 	Name    string   `bson:"name"    json:"name"`
 	Type    string   `bson:"type"    json:"type"`
@@ -21,7 +21,7 @@ type Stats struct {
 	DamageReceived  int32 `bson:"damage_received"  json:"damageReceived"`
 	EnemiesFought   int32 `bson:"enemies_fought"   json:"enemiesFought"`
 	EnemiesDefeated int32 `bson:"enemies_defeated" json:"enemiesDefeated"`
-	Faints			int32 `bson:"faints"           json:"faints"`
+	Faints          int32 `bson:"faints"           json:"faints"`
 }
 
 func (m *Monster) Create() error {
