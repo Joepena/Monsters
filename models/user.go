@@ -16,7 +16,7 @@ type User struct {
 	Email        string    `bson:"email"`
 	Password     string    `bson:"-"`
 	PasswordHash string    `bson:"password_hash"`
-	Monsters	 []Monster `bson:"monsters"`
+	Monsters     []Monster `bson:"monsters"`
 	Battles	     []Battle  `bson:"battles"`
 }
 
