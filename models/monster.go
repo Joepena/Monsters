@@ -10,8 +10,8 @@ type Monster struct {
 	Hp      int32    `bson:"hp"      json:"hp"`
 	Attack  int32    `bson:"attack"  json:"attack"`
 	Defense int32    `bson:"defense" json:"defense"`
-	Attacks []Attack `bson:"attacks"`
-	Stats            `bson:",inline"`
+	Attacks []Attack `bson:"attacks" json:"attacks"`
+	Stats   Stats    `bson:"stats"   json:"stats"`
 }
 
 type Stats struct {

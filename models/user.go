@@ -158,10 +158,13 @@ func (u *User) UpdateMonsterStats(m *Monster) error {
 
 	query := bson.M{"_id": u.ID, "monsters.id": m.ID}
 	update := bson.M{"$inc": bson.M{
-		"monsters.$.hits": 			m.Stats.Hits,
-		"monsters.$.misses": 			m.Stats.Misses,
-		"monsters.$.damage_dealt":    m.Stats.DamageDealt,
-		"monsters.$.damage_received": m.Stats.DamageReceived,
+		"monsters.$.stats.hits":             m.Stats.Hits,
+		"monsters.$.stats.misses":           m.Stats.Misses,
+		"monsters.$.stats.damage_dealt":     m.Stats.DamageDealt,
+		"monsters.$.stats.damage_received":  m.Stats.DamageReceived,
+		"monsters.$.stats.enemies_fought":   m.Stats.EnemiesFought,
+		"monsters.$.stats.enemies_defeated": m.Stats.EnemiesDefeated,
+		"monsters.$.stats.faints":           m.Stats.Faints,
 	}}
 
 	return c.Update(query, update)

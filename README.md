@@ -52,32 +52,34 @@ Returns:
     "id":        "1234",
     "monsters":  [
         {
-            "ID":       "2345",
-            "No":       66,
-            "Name":     "Machop",
-            "Type":     "Fighting",
-            "Hp":       70,
-            "Attack":   80,
-            "Defense":  50,
-            "Attacks":  [
+            "monsterID":       "2345",
+            "monsterNo":       66,
+            "name":     "Machop",
+            "type":     "Fighting",
+            "hp":       70,
+            "attack":   80,
+            "defense":  50,
+            "attacks":  [
                 {
-                    "SlotNo":       0,
-                    "MonsterNo":    66,
-                    "Name":         "Karate Chop",
-                    "Type":         "Normal",
-                    "Power":        50,
-                    "Accuracy":     100,
-                    "AnimationID":  2
+                    "slotNo":       0,
+                    "monsterNo":    66,
+                    "name":         "Karate Chop",
+                    "type":         "Normal",
+                    "power":        50,
+                    "accuracy":     100,
+                    "animationID":  2
                 },
                 { ... }
             ],
-            "hits": 230,
-            "misses": 122,
-            "damageDealt": 14000,
-            "damageReceived": 2000,
-            "enemiesFought": 42,
-            "enemiesDefeated": 12,
-            "faints": 4
+            "stats": {
+                "hits": 230,
+                "misses": 122,
+                "damageDealt": 14000,
+                "damageReceived": 2000,
+                "enemiesFought": 42,
+                "enemiesDefeated": 12,
+                "faints": 4
+            }
         },
         { ... }
     ],
@@ -159,13 +161,15 @@ PUT /user/monster/stats
 
 {
 	"monsterID": "123",
-	"hits": 2,
-	"misses": 4,
-	"damageDealt": 200,
-	"damageReceived": 150,
-	"enemiesFought": 1,
-	"enemiesDefeated": 1,
-	"faints": 0
+	"stats": {
+        "hits": 2,
+        "misses": 4,
+        "damageDealt": 200,
+        "damageReceived": 150,
+        "enemiesFought": 1,
+        "enemiesDefeated": 1,
+        "faints": 0
+	}
 }
 
 header: "authorization":  <auth_token>
@@ -239,21 +243,23 @@ header: "authorization":  <auth_token>
 Returns:
 {
     "monster": {
-        "ID":       "",
-        "No":       66,
-        "Name":     "Machop",
-        "Type":     "Fighting",
-        "Hp":       70,
-        "Attack":   80,
-        "Defense":  50,
-        "Attacks":  null,
-        "hits": 0,
-        "misses": 0,
-        "damageDealt": 0,
-        "damageReceived": 0,
-        "enemiesFought": 0,
-        "enemiesDefeated": 0,
-        "faints": 0
+        "monsterID":       "",
+        "monsterNo":       66,
+        "name":     "Machop",
+        "type":     "Fighting",
+        "hp":       70,
+        "attack":   80,
+        "defense":  50,
+        "attacks":  null,
+        "stats": {
+            "hits": 0,
+            "misses": 0,
+            "damageDealt": 0,
+            "damageReceived": 0,
+            "enemiesFought": 0,
+            "enemiesDefeated": 0,
+            "faints": 0
+        }
     }
 }
 ```
@@ -277,13 +283,13 @@ header: "authorization":  <auth_token>
 Returns:
 {
     "attack": {
-        "SlotNo":       0,
-        "MonsterNo":    66,
-        "Name":         "Karate Chop",
-        "Type":         "Normal",
-        "Power":        50,
-        "Accuracy":     100,
-        "AnimationID":  2
+        "slotNo":       0,
+        "monsterNo":    66,
+        "name":         "Karate Chop",
+        "type":         "Normal",
+        "power":        50,
+        "accuracy":     100,
+        "animationID":  2
     }
 }
 ```
@@ -291,6 +297,7 @@ Returns:
 ## Database Schema
 
 ### User
+
 | Field        | Type      | Description
 | ------------ | :-------: | ---------
 | ID           | string    | --
@@ -314,6 +321,12 @@ Returns:
 | Attack	      | int       | --
 | Defense         | int       | --
 | Attacks         | []Attack  | Array of monster's learned attacks
+| Stats           | Stats     | Monster's battle stats
+
+### Stats
+
+| Field           | Type      | Description
+| --------------- | :-------: | ---------
 | Hits            | int       | Total number of successful attacks
 | Misses          | int       | Total number of missed attacks
 | DamageDealt     | int       | Total damage done to other monsters
