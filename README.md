@@ -52,14 +52,14 @@ Returns:
     "id":        "1234",
     "monsters":  [
         {
-            "monsterID":       "2345",
-            "monsterNo":       66,
-            "name":     "Machop",
-            "type":     "Fighting",
-            "hp":       70,
-            "attack":   80,
-            "defense":  50,
-            "attacks":  [
+            "monsterID":  "2345",
+            "monsterNo":  66,
+            "name":       "Machop",
+            "type":       "Fighting",
+            "hp":         70,
+            "attack":     80,
+            "defense":    50,
+            "attacks":    [
                 {
                     "slotNo":       0,
                     "monsterNo":    66,
@@ -72,23 +72,23 @@ Returns:
                 { ... }
             ],
             "stats": {
-                "hits": 230,
-                "misses": 122,
-                "damageDealt": 14000,
-                "damageReceived": 2000,
-                "enemiesFought": 42,
-                "enemiesDefeated": 12,
-                "faints": 4
+                "hits":             230,
+                "misses":           122,
+                "damageDealt":      14000,
+                "damageReceived":   2000,
+                "enemiesFought":    42,
+                "enemiesDefeated":  12,
+                "faints":           4
             }
         },
         { ... }
     ],
     "battles": [
         {
-            "victorID": "1234",
-            "loserID": "5678",
-            "date": "2018-02-25T21:06:59.222-05:00",
-            "location": {
+            "victorID":  "1234",
+            "loserID":   "5678",
+            "date":      "2018-02-25T21:06:59.222-05:00",
+            "location":  {
                 "x": 23.389,
                 "y": -24.1342
             }
@@ -162,13 +162,13 @@ PUT /user/monster/stats
 {
 	"monsterID": "123",
 	"stats": {
-        "hits": 2,
-        "misses": 4,
-        "damageDealt": 200,
-        "damageReceived": 150,
-        "enemiesFought": 1,
-        "enemiesDefeated": 1,
-        "faints": 0
+        "hits":             2,
+        "misses":           4,
+        "damageDealt":      200,
+        "damageReceived":   150,
+        "enemiesFought":    1,
+        "enemiesDefeated":  1,
+        "faints":           0
 	}
 }
 
@@ -205,9 +205,9 @@ Returns:
 POST /user/battle
 
 {
-	"victorID": "1234",
-	"loserID": "5678",
-	"location": {
+	"victorID":  "1234",
+	"loserID":   "5678",
+	"location":  {
 		"x": 23.3890,
 		"y": -24.1342
 	}
@@ -243,22 +243,22 @@ header: "authorization":  <auth_token>
 Returns:
 {
     "monster": {
-        "monsterID":       "",
-        "monsterNo":       66,
-        "name":     "Machop",
-        "type":     "Fighting",
-        "hp":       70,
-        "attack":   80,
-        "defense":  50,
-        "attacks":  null,
+        "monsterID":  "",
+        "monsterNo":  66,
+        "name":       "Machop",
+        "type":       "Fighting",
+        "hp":         70,
+        "attack":     80,
+        "defense":    50,
+        "attacks":    null,
         "stats": {
-            "hits": 0,
-            "misses": 0,
-            "damageDealt": 0,
-            "damageReceived": 0,
-            "enemiesFought": 0,
-            "enemiesDefeated": 0,
-            "faints": 0
+            "hits":             0,
+            "misses":           0,
+            "damageDealt":      0,
+            "damageReceived":   0,
+            "enemiesFought":    0,
+            "enemiesDefeated":  0,
+            "faints":           0
         }
     }
 }
