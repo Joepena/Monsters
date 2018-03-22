@@ -51,7 +51,12 @@ func createUserHandler(c buffalo.Context) error {
 		return err
 	}
 
-	return 	c.Render(201, render.JSON(map[string]string{"token": u.AuthToken, "email": u.Email, "userId": u.ID}))
+	return 	c.Render(201, render.JSON(map[string]interface{}{
+		"id": u.ID,
+		"token": u.AuthToken,
+		"email": u.Email,
+		"monsters": u.Monsters,
+	}))
 }
 
 func loginHandler(c buffalo.Context) error {
@@ -69,6 +74,11 @@ func loginHandler(c buffalo.Context) error {
 		return err
 	}
 
-	return c.Render(201, render.JSON(map[string]string{"token": u.AuthToken, "userId": u.ID}))
+	return c.Render(201, render.JSON(map[string]interface{}{
+		"id": u.ID,
+		"token": u.AuthToken,
+		"email": u.Email,
+		"monsters": u.Monsters,
+	}))
 
 }
