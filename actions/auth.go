@@ -43,7 +43,7 @@ func createUserHandler(c buffalo.Context) error {
 	}
 
 	u.AuthToken = token
-
+	u.Monsters = []models.Monster{} //init empty array
 	err = u.Create()
 
 	if err != nil {

@@ -11,7 +11,7 @@ type Monster struct {
 	Hp      int32    `bson:"hp" json:"hp"`
 	Attack  int32    `bson:"attack" json:"attack"`
 	Defense int32    `bson:"defense" json:"defense"`
-	Attacks []Attack `bson:"attacks"`
+	Attacks []Attack `bson:"attacks" json:"attacks"`
 }
 
 func (m *Monster) Create() error {
