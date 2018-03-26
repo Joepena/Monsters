@@ -5,7 +5,6 @@ import (
 	"github.com/joepena/monsters/models"
 	"github.com/pkg/errors"
 	"github.com/gobuffalo/buffalo/render"
-	"time"
 )
 
 func userDataHandler(c buffalo.Context) error {
@@ -20,7 +19,7 @@ func userDataHandler(c buffalo.Context) error {
 		"id": user.ID,
 		"email": user.Email,
 		"monsters": user.Monsters,
-		"battles": user.Battles,
+		"battleStats": user.BattleStats,
 	}))
 }
 
@@ -131,37 +130,21 @@ func addMonsterAttackHandler(c buffalo.Context) error {
 	}))
 }
 
-func addBattleHandler(c buffalo.Context) error {
-	db := models.GetDBInstance()
-	b := &models.Battle{}
+func addBattleResultHandler(c buffalo.Context) error {
+	user := c.Data()["User"].(models.User)
+	b := &models.BattleStats{}
 
 	err := c.Bind(b)
 	if err != nil {
 		return errors.WithStack(err)
 	}
-	b.Date = time.Now()
 
-	victor, err := db.GetUserById(b.VictorID)
-	if err != nil {
-		return errors.New("victor not found")
-	}
-
-	loser, err := db.GetUserById(b.LoserID)
-	if err != nil {
-		return errors.New("loser not found")
-	}
-
-	err = victor.AddBattle(b)
-	if err != nil {
-		return err
-	}
-
-	err = loser.AddBattle(b)
+	err = user.AddBattleResult(b)
 	if err != nil {
 		return err
 	}
 
 	return c.Render(200, render.JSON(map[string]interface{}{
-		"status": "battle added to users " + victor.ID + " and " + loser.ID,
+		"status": "battle stats updated",
 	}))
 }

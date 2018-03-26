@@ -59,7 +59,7 @@ func App() *buffalo.App {
 		userGroup.PUT("/monster/stats", updateMonsterStatsHandler)
 		userGroup.POST("/monster", addMonsterHandler)
 		userGroup.POST("/monster/attack", addMonsterAttackHandler)
-		userGroup.POST("/battle", addBattleHandler)
+		userGroup.POST("/battle", addBattleResultHandler)
 
 		dexGroup := app.Group("/dex")
 		dexGroup.POST("/monster", createMonsterHandler)

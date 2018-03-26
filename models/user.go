@@ -11,13 +11,18 @@ import (
 )
 
 type User struct {
-	ID           string    `bson:"_id"`
-	AuthToken    string    `bson:"auth_token"`
-	Email        string    `bson:"email"`
-	Password     string    `bson:"-"`
-	PasswordHash string    `bson:"password_hash"`
-	Monsters     []Monster `bson:"monsters"`
-	Battles	     []Battle  `bson:"battles"`
+	ID           string      `bson:"_id"`
+	AuthToken    string      `bson:"auth_token"`
+	Email        string      `bson:"email"`
+	Password     string      `bson:"-"`
+	PasswordHash string      `bson:"password_hash"`
+	Monsters     []Monster   `bson:"monsters"`
+	BattleStats  BattleStats `bson:"battle_stats"`
+}
+
+type BattleStats struct {
+	Wins   int32 `bson:"wins"   json:"wins"`
+	Losses int32 `bson:"losses" json:"losses"`
 }
 
 type AddAttackParams struct {
@@ -214,11 +219,14 @@ func generateMonsterID() (string, error) {
 	return strconv.Itoa(counterDoc.MonsterCount), nil
 }
 
-func (u *User) AddBattle(b *Battle) error {
+func (u *User) AddBattleResult(b *BattleStats) error {
 	db := GetDBInstance()
 	c := db.session.DB("auth").C("users")
 
 	query := bson.M{"_id": u.ID}
-	update := bson.M{"$push": bson.M{"battles": b}}
+	update := bson.M{"$inc": bson.M{
+		"battle_stats.wins":   b.Wins,
+		"battle_stats.losses": b.Losses,
+	}}
 	return c.Update(query, update)
 }

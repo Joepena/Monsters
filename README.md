@@ -33,7 +33,11 @@ POST /auth/login
 Returns:
 {
     "token":   "iOiJIUzI1NiIsInR5cCI6IkpX",
-    "userId":  "1234"
+    "userId":  "1234",
+    "battleStats": {
+        "wins":   40,
+        "losses": 12
+    }
 }
 ```
 
@@ -48,8 +52,12 @@ header: "authorization":  <auth_token>
 ```
 Returns:
 {
-    "email":     "test@email.com",
-    "id":        "1234",
+    "email":  "test@email.com",
+    "id":     "1234",
+    "battleStats": {
+        "wins":    40,
+        "losses":  12
+    },
     "monsters":  [
         {
             "monsterID":  "2345",
@@ -79,18 +87,6 @@ Returns:
                 "enemiesFought":    42,
                 "enemiesDefeated":  12,
                 "faints":           4
-            }
-        },
-        { ... }
-    ],
-    "battles": [
-        {
-            "victorID":  "1234",
-            "loserID":   "5678",
-            "date":      "2018-02-25T21:06:59.222-05:00",
-            "location":  {
-                "x": 23.389,
-                "y": -24.1342
             }
         },
         { ... }
@@ -200,17 +196,13 @@ Returns:
 }
 ```
 
-##### Add battle results to user
+##### Add battle result to user
 ```
 POST /user/battle
 
 {
-	"victorID":  "1234",
-	"loserID":   "5678",
-	"location":  {
-		"x": 23.3890,
-		"y": -24.1342
-	}
+    "wins":   1,
+    "losses": 0
 }
 
 header: "authorization":  <auth_token>
@@ -218,7 +210,7 @@ header: "authorization":  <auth_token>
 ```
 Returns:
 {
-    "status": "battle added to users 1234 and 5678",
+    "status": "battle stats updated"
 }
 ```
 
@@ -298,15 +290,24 @@ Returns:
 
 ### User
 
-| Field        | Type      | Description
-| ------------ | :-------: | ---------
-| ID           | string    | --
-| AuthToken    | string    | --
-| Email        | string    | --
-| Password     | string    | --
-| PasswordHash | string    | --
-| Monsters	   | []Monster | Array of user's monsters
-| Battles	   | []Battle  | Array of battles user has fought
+| Field        | Type        | Description
+| ------------ | :---------: | ---------
+| ID           | string      | --
+| AuthToken    | string      | --
+| Email        | string      | --
+| Password     | string      | --
+| PasswordHash | string      | --
+| Monsters	   | []Monster   | Array of user's monsters
+| BattleStats  | BattleStats | Stores user's wins & losses
+
+
+### BattleStats
+
+| Field        | Type     | Description
+| ------------ | :------: | ---------
+| Wins         | int      | --
+| Losses       | int      | --
+
 
 ### Monster
 > Note: Monsters exist in the `dex` database under the `monsters` collection. These monsters have all base stats with no set ID, and are identified by the `No` field.
@@ -323,6 +324,7 @@ Returns:
 | Attacks         | []Attack  | Array of monster's learned attacks
 | Stats           | Stats     | Monster's battle stats
 
+
 ### Stats
 
 | Field           | Type      | Description
@@ -335,6 +337,7 @@ Returns:
 | EnemiesDefeated | int       | Number of enemies defeated
 | Faints          | int       | Number of times defeated by a monster
 
+
 ### Attack
 > Note: Attacks are located in the `dex` database under the `attacks` collection. 
 
@@ -346,19 +349,3 @@ Returns:
 | Power        | int       | --
 | Accuracy	   | int       | --
 | AnimationID  | int       | Corresponds to animation in .dae
-
-### Battle
-
-| Field        | Type      | Description
-| ------------ | :-------: | ---------
-| VictorID     | string    | UserID of the victor
-| LoserID      | string    | UserID of the loser
-| Date         | time.Time | Date and time set by server
-| Location     | Location  | Geospatial coordinates
-
-### Location
-
-| Field        | Type      | Description
-| ------------ | :-------: | ---------
-| X            | float32   | Longitude
-| Y            | float32   | Latitude
