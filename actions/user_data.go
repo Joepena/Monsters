@@ -17,7 +17,6 @@ func userDataHandler(c buffalo.Context) error {
 
 	return c.Render(200, render.JSON(map[string]interface{}{
 		"id": user.ID,
-		"token": user.AuthToken,
 		"email": user.Email,
 		"monsters": user.Monsters,
 	}))

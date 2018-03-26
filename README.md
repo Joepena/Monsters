@@ -60,7 +60,6 @@ header: "authorization":  <auth_token>
 Returns:
 {
     "email":     "test@email.com",
-    "token":     "iOiJIUzI1NiIsInR5cCI6IkpX",
     "id":        "1234",
     "monsters":  [
         {
