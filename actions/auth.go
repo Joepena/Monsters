@@ -69,6 +69,10 @@ func loginHandler(c buffalo.Context) error {
 		return err
 	}
 
-	return c.Render(201, render.JSON(map[string]string{"token": u.AuthToken, "userId": u.ID}))
+	return c.Render(201, render.JSON(map[string]interface{}{
+		"token": u.AuthToken,
+		"userId": u.ID,
+		"battleStats": u.BattleStats,
+	}))
 
 }

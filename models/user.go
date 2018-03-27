@@ -11,12 +11,18 @@ import (
 )
 
 type User struct {
-	ID           string    `bson:"_id"`
-	AuthToken    string    `bson:"auth_token"`
-	Email        string    `bson:"email"`
-	Password     string    `bson:"-"`
-	PasswordHash string    `bson:"password_hash"`
-	Monsters	 []Monster `bson:"monsters"`
+	ID           string      `bson:"_id"`
+	AuthToken    string      `bson:"auth_token"`
+	Email        string      `bson:"email"`
+	Password     string      `bson:"-"`
+	PasswordHash string      `bson:"password_hash"`
+	Monsters     []Monster   `bson:"monsters"`
+	BattleStats  BattleStats `bson:"battle_stats"`
+}
+
+type BattleStats struct {
+	Wins   int32 `bson:"wins"   json:"wins"`
+	Losses int32 `bson:"losses" json:"losses"`
 }
 
 type AddAttackParams struct {
@@ -152,6 +158,23 @@ func (u *User) RenameMonster(m *Monster) error {
 	return c.Update(query, update)
 }
 
+func (u *User) UpdateMonsterStats(m *Monster) error {
+	c := GetDBInstance().session.DB("auth").C("users")
+
+	query := bson.M{"_id": u.ID, "monsters.id": m.ID}
+	update := bson.M{"$inc": bson.M{
+		"monsters.$.stats.hits":             m.Stats.Hits,
+		"monsters.$.stats.misses":           m.Stats.Misses,
+		"monsters.$.stats.damage_dealt":     m.Stats.DamageDealt,
+		"monsters.$.stats.damage_received":  m.Stats.DamageReceived,
+		"monsters.$.stats.enemies_fought":   m.Stats.EnemiesFought,
+		"monsters.$.stats.enemies_defeated": m.Stats.EnemiesDefeated,
+		"monsters.$.stats.faints":           m.Stats.Faints,
+	}}
+
+	return c.Update(query, update)
+}
+
 func (u *User) ReplaceMonsterAttack(a *AddAttackParams) error {
 	db := GetDBInstance()
 	c := db.session.DB("auth").C("users")
@@ -194,4 +217,16 @@ func generateMonsterID() (string, error) {
 	}
 
 	return strconv.Itoa(counterDoc.MonsterCount), nil
+}
+
+func (u *User) AddBattleResult(b *BattleStats) error {
+	db := GetDBInstance()
+	c := db.session.DB("auth").C("users")
+
+	query := bson.M{"_id": u.ID}
+	update := bson.M{"$inc": bson.M{
+		"battle_stats.wins":   b.Wins,
+		"battle_stats.losses": b.Losses,
+	}}
+	return c.Update(query, update)
 }
