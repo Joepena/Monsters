@@ -1,11 +1,3 @@
-## Starting the Application
-
-Buffalo ships with a command that will watch your application and automatically rebuild the Go binary and any assets for you. To do that run the "buffalo dev" command:
-
-	$ buffalo dev
-
-If you point your browser to [http://127.0.0.1:3000](http://127.0.0.1:3000) you should see a "Welcome to Buffalo!" page.
-
 ## API Endpoints and Usage
 
 ### Authorization Endpoints
@@ -44,7 +36,11 @@ Returns:
     "email":     "test@email.com",
     "token":     "iOiJIUzI1NiIsInR5cCI6IkpX",
     "userId":    "1234",
-    "monsters":  [ ... ]
+    "monsters":  [ ... ],
+    "battleStats": {
+        "wins":   40,
+        "losses": 12
+    }
 }
 ```
 
@@ -59,29 +55,42 @@ header: "authorization":  <auth_token>
 ```
 Returns:
 {
-    "email":     "test@email.com",
-    "id":        "1234",
+    "email":  "test@email.com",
+    "id":     "1234",
+    "battleStats": {
+        "wins":    40,
+        "losses":  12
+    },
     "monsters":  [
         {
-            "ID":       "2345",
-            "No":       66,
-            "Name":     "Machop",
-            "Type":     "Fighting",
-            "Hp":       70,
-            "Attack":   80,
-            "Defense":  50,
-            "Attacks":  [
+            "monsterID":  "2345",
+            "monsterNo":  66,
+            "name":       "Machop",
+            "type":       "Fighting",
+            "hp":         70,
+            "attack":     80,
+            "defense":    50,
+            "attacks":    [
                 {
-                    "SlotNo":       0,
-                    "MonsterNo":    66,
-                    "Name":         "Karate Chop",
-                    "Type":         "Normal",
-                    "Power":        50,
-                    "Accuracy":     100,
-                    "AnimationID":  2
+                    "slotNo":       0,
+                    "monsterNo":    66,
+                    "name":         "Karate Chop",
+                    "type":         "Normal",
+                    "power":        50,
+                    "accuracy":     100,
+                    "animationID":  2
                 },
                 { ... }
-            ]
+            ],
+            "stats": {
+                "hits":             230,
+                "misses":           122,
+                "damageDealt":      14000,
+                "damageReceived":   2000,
+                "enemiesFought":    42,
+                "enemiesDefeated":  12,
+                "faints":           4
+            }
         },
         { ... }
     ]
@@ -145,6 +154,32 @@ Returns:
 }
 ```
 
+##### Update monster stats
+```
+PUT /user/monster/stats
+
+{
+	"monsterID": "123",
+	"stats": {
+        "hits":             2,
+        "misses":           4,
+        "damageDealt":      200,
+        "damageReceived":   150,
+        "enemiesFought":    1,
+        "enemiesDefeated":  1,
+        "faints":           0
+	}
+}
+
+header: "authorization":  <auth_token>
+```
+```
+Returns:
+{
+    "status": "monster stats updated"
+}
+```
+
 ##### Add attack to user's monster
 ```
 POST /user/monster/attack/
@@ -161,6 +196,24 @@ header: "authorization":  <auth_token>
 Returns:
 {
     "status": "attack added",
+}
+```
+
+##### Add battle result to user
+```
+POST /user/battle
+
+{
+    "wins":   1,
+    "losses": 0
+}
+
+header: "authorization":  <auth_token>
+```
+```
+Returns:
+{
+    "status": "battle stats updated"
 }
 ```
 
@@ -185,14 +238,23 @@ header: "authorization":  <auth_token>
 Returns:
 {
     "monster": {
-        "ID":       "",
-        "No":       66,
-        "Name":     "Machop",
-        "Type":     "Fighting",
-        "Hp":       70,
-        "Attack":   80,
-        "Defense":  50,
-        "Attacks":  null
+        "monsterID":  "",
+        "monsterNo":  66,
+        "name":       "Machop",
+        "type":       "Fighting",
+        "hp":         70,
+        "attack":     80,
+        "defense":    50,
+        "attacks":    null,
+        "stats": {
+            "hits":             0,
+            "misses":           0,
+            "damageDealt":      0,
+            "damageReceived":   0,
+            "enemiesFought":    0,
+            "enemiesDefeated":  0,
+            "faints":           0
+        }
     }
 }
 ```
@@ -216,13 +278,13 @@ header: "authorization":  <auth_token>
 Returns:
 {
     "attack": {
-        "SlotNo":       0,
-        "MonsterNo":    66,
-        "Name":         "Karate Chop",
-        "Type":         "Normal",
-        "Power":        50,
-        "Accuracy":     100,
-        "AnimationID":  2
+        "slotNo":       0,
+        "monsterNo":    66,
+        "name":         "Karate Chop",
+        "type":         "Normal",
+        "power":        50,
+        "accuracy":     100,
+        "animationID":  2
     }
 }
 ```
@@ -230,28 +292,54 @@ Returns:
 ## Database Schema
 
 ### User
-| Field        | Type      | Description
-| ------------ | :-------: | ---------
-| ID           | string    | --
-| AuthToken    | string    | --
-| Email        | string    | --
-| Password     | string    | --
-| PasswordHash | string    | --
-| Monsters	   | []Monster | Array of user's monsters
+
+| Field        | Type        | Description
+| ------------ | :---------: | ---------
+| ID           | string      | --
+| AuthToken    | string      | --
+| Email        | string      | --
+| Password     | string      | --
+| PasswordHash | string      | --
+| Monsters	   | []Monster   | Array of user's monsters
+| BattleStats  | BattleStats | Stores user's wins & losses
+
+
+### BattleStats
+
+| Field        | Type     | Description
+| ------------ | :------: | ---------
+| Wins         | int      | --
+| Losses       | int      | --
+
 
 ### Monster
 > Note: Monsters exist in the `dex` database under the `monsters` collection. These monsters have all base stats with no set ID, and are identified by the `No` field.
 
-| Field        | Type      | Description
-| ------------ | :-------: | ---------
-| ID           | string    | Set once added to a user
-| No           | int       | Monster number in Dex
-| Name         | string    | --
-| Type         | string    | --
-| Hp           | int       | --
-| Attack	   | int       | --
-| Defense      | int       | --
-| Attacks      | int       | Array of monster's learned attacks
+| Field           | Type      | Description
+| --------------- | :-------: | ---------
+| ID              | string    | Set once added to a user
+| No              | int       | Monster number in Dex
+| Name            | string    | --
+| Type            | string    | --
+| Hp              | int       | --
+| Attack	      | int       | --
+| Defense         | int       | --
+| Attacks         | []Attack  | Array of monster's learned attacks
+| Stats           | Stats     | Monster's battle stats
+
+
+### Stats
+
+| Field           | Type      | Description
+| --------------- | :-------: | ---------
+| Hits            | int       | Total number of successful attacks
+| Misses          | int       | Total number of missed attacks
+| DamageDealt     | int       | Total damage done to other monsters
+| DamageReceived  | int       | Total damage received from other monsters
+| EnemiesFought   | int       | Number of enemies fought
+| EnemiesDefeated | int       | Number of enemies defeated
+| Faints          | int       | Number of times defeated by a monster
+
 
 ### Attack
 > Note: Attacks are located in the `dex` database under the `attacks` collection. 

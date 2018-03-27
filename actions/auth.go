@@ -79,6 +79,7 @@ func loginHandler(c buffalo.Context) error {
 		"token": u.AuthToken,
 		"email": u.Email,
 		"monsters": u.Monsters,
+		"battleStats": u.BattleStats,
 	}))
 
 }
