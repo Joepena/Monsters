@@ -14,9 +14,10 @@ POST /auth/user
 ```
 Returns:
 {
-    "email":   "test@email.com",
-    "token":   "iOiJIUzI1NiIsInR5cCI6IkpX",
-    "userId":  "1234"
+    "email":     "test@email.com",
+    "token":     "iOiJIUzI1NiIsInR5cCI6IkpX",
+    "userId":    "1234",
+    "monsters":  null
 }
 ```
 
@@ -32,8 +33,10 @@ POST /auth/login
 ```
 Returns:
 {
-    "token":   "iOiJIUzI1NiIsInR5cCI6IkpX",
-    "userId":  "1234",
+    "email":     "test@email.com",
+    "token":     "iOiJIUzI1NiIsInR5cCI6IkpX",
+    "userId":    "1234",
+    "monsters":  [ ... ],
     "battleStats": {
         "wins":   40,
         "losses": 12
