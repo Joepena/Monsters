@@ -19,6 +19,7 @@ func userDataHandler(c buffalo.Context) error {
 		"id": user.ID,
 		"email": user.Email,
 		"monsters": user.Monsters,
+		"battleStats": user.BattleStats,
 	}))
 }
 
@@ -92,6 +93,25 @@ func renameMonsterHandler(c buffalo.Context) error {
 	}))
 }
 
+func updateMonsterStatsHandler(c buffalo.Context) error {
+	user := c.Data()["User"].(models.User)
+	m := &models.Monster{}
+
+	err := c.Bind(m)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	err = user.UpdateMonsterStats(m)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	return c.Render(200, render.JSON(map[string]interface{}{
+		"status": "monster stats updated",
+	}))
+}
+
 func addMonsterAttackHandler(c buffalo.Context) error {
 	user := c.Data()["User"].(models.User)
 	a := &models.AddAttackParams{}
@@ -108,5 +128,24 @@ func addMonsterAttackHandler(c buffalo.Context) error {
 
 	return c.Render(200, render.JSON(map[string]interface{}{
 		"status": "attack added",
+	}))
+}
+
+func addBattleResultHandler(c buffalo.Context) error {
+	user := c.Data()["User"].(models.User)
+	b := &models.BattleStats{}
+
+	err := c.Bind(b)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	err = user.AddBattleResult(b)
+	if err != nil {
+		return err
+	}
+
+	return c.Render(200, render.JSON(map[string]interface{}{
+		"status": "battle stats updated",
 	}))
 }

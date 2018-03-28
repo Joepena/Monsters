@@ -35,23 +35,6 @@ func generateMonsterID() (string, error) {
 	return strconv.Itoa(counterDoc.MonsterCount), nil
 }
 
-func generateAssetId() (string, error) {
-	collection := GetDBInstance().Session.DB("dex").C("counters")
-	change := mgo.Change{
-		Update: bson.M{"$inc": bson.M{"asset_count": 1}},
-		ReturnNew: false,
-	}
-
-	var counterDoc AssetCounter
-
-	_, err := collection.Find(bson.M{"_id":"asset_counter"}).Apply(change, &counterDoc)
-	if err != nil {
-		return "", err
-	}
-
-	return strconv.Itoa(counterDoc.AssetCount), nil
-}
-
 func generateAccountID() (string, error) {
 	collection := GetDBInstance().Session.DB("auth").C("counters")
 	change := mgo.Change{

@@ -43,7 +43,6 @@ func createUserHandler(c buffalo.Context) error {
 	}
 
 	u.AuthToken = token
-	u.Monsters = []models.Monster{} //init empty array
 	err = u.Create()
 
 	if err != nil {
@@ -52,11 +51,12 @@ func createUserHandler(c buffalo.Context) error {
 	}
 
 	return 	c.Render(201, render.JSON(map[string]interface{}{
-				"id": u.ID,
-				"token": u.AuthToken,
-				"email": u.Email,
-			    "monsters": u.Monsters,
-			}))
+		"id": u.ID,
+		"token": u.AuthToken,
+		"email": u.Email,
+		"monsters": u.Monsters,
+		"battleStats": u.BattleStats,
+	}))
 }
 
 func loginHandler(c buffalo.Context) error {
@@ -74,10 +74,12 @@ func loginHandler(c buffalo.Context) error {
 		return err
 	}
 
-	return 	c.Render(201, render.JSON(map[string]interface{}{
-				"id": u.ID,
-				"token": u.AuthToken,
-				"email": u.Email,
-				"monsters": u.Monsters,
-			}))
+	return c.Render(201, render.JSON(map[string]interface{}{
+		"id": u.ID,
+		"token": u.AuthToken,
+		"email": u.Email,
+		"monsters": u.Monsters,
+		"battleStats": u.BattleStats,
+	}))
+
 }
