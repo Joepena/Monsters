@@ -34,21 +34,16 @@ func userAssetDataHandler(c buffalo.Context) error {
 	type MonsterAsset struct {
 		Name         string
 		MonsterNo    int32
-		AssetID      int32
-		AnimationAssetIDs []int32
+		AssetSet     models.AssetIDSet
 	}
 	var assets []MonsterAsset
 
 	for _, monster := range user.Monsters {
-		var ids []int32
-		for _, attack := range monster.Attacks {
-			ids = append(ids, attack.AssetID)
-		}
+
 		mA := MonsterAsset{
 			Name: monster.Name,
 			MonsterNo: monster.No,
-			AssetID: monster.AssetID,
-			AnimationAssetIDs: ids,
+			AssetSet: monster.Assets,
 		}
 		assets = append(assets, mA)
 	}

@@ -1,8 +1,39 @@
 [
     {
       "monsterID":      "",
-      "assetID": -1,
       "monsterNo":      7,
+      "assetIDSet": {
+        "texture1ID": 1,
+        "texture2ID": 2,
+        "ios":{
+          "daeID": 3,
+          "animationSet": [
+            {
+              "name": "attack",
+              "assetID": 4
+            },
+            {
+              "name": "faint",
+              "assetID": 5
+            },
+            {
+              "name": "hit",
+              "assetID": 6
+            },
+            {
+              "name": "intro",
+              "assetID": 7
+            },
+            {
+              "name": "standing",
+              "assetID": 8
+            }
+          ]
+        },
+        "android": {
+          "blendID": 9
+        }
+      },
       "name":    "Squirtle",
       "type":    "Water",
       "hp":      44,
@@ -49,8 +80,39 @@
     },
     {
       "monsterID":      "",
-      "assetID": 1,
       "no":      66,
+      "assetIDSet": {
+        "texture1ID": 10,
+        "texture2ID": 11,
+        "ios":{
+          "daeID": 12,
+          "animationSet": [
+            {
+              "name": "attack",
+              "assetID": 13
+            },
+            {
+              "name": "faint",
+              "assetID": 14
+            },
+            {
+              "name": "hit",
+              "assetID": 15
+            },
+            {
+              "name": "intro",
+              "assetID": 16
+            },
+            {
+              "name": "standing",
+              "assetID": 17
+            }
+          ]
+        },
+        "android": {
+          "blendID": 18
+        }
+      },
       "name":    "Machop",
       "type":    "Fighting",
       "hp":      70,

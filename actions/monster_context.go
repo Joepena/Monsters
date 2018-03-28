@@ -22,9 +22,8 @@ func (m *MonsterContext) RenderFile(file string) error {
 	defer func() {
 		m.LogField("render", time.Since(start))
 	}()
-	f := file+".dae" // TODO: assets are all .dae this should be a config var.
-	p := path.Join(ASSET_DIR, f)
-	_, fileName := path.Split(f)
+
+	p := path.Join(ASSET_DIR, file)
 
 	//Check if file exists and open
 	oFile, err := os.Open(p)
@@ -49,7 +48,7 @@ func (m *MonsterContext) RenderFile(file string) error {
 
 	//Send the headers
 	m.Response().Header().Set("Content-Type", FileContentType)
-	m.Response().Header().Set("Content-Disposition", "attachment; filename="+fileName)
+	m.Response().Header().Set("Content-Disposition", "attachment; filename="+file)
 	m.Response().Header().Set("Content-Length", FileSize)
 	m.Response().WriteHeader(200)
 
