@@ -14,10 +14,14 @@ POST /auth/user
 ```
 Returns:
 {
-    "email":     "test@email.com",
-    "token":     "iOiJIUzI1NiIsInR5cCI6IkpX",
-    "userId":    "1234",
-    "monsters":  null
+    "id": "1234",
+    "token": "iOiJIUzI1NiIsInR5cCI6IkpX",
+    "email": "test@email.com",
+    "monsters": [],
+    "battleStats": {
+        "wins": 0,
+        "loses": 0
+    }
 }
 ```
 
@@ -33,9 +37,9 @@ POST /auth/login
 ```
 Returns:
 {
-    "email":     "test@email.com",
+    "id":    "1234",
     "token":     "iOiJIUzI1NiIsInR5cCI6IkpX",
-    "userId":    "1234",
+    "email":     "test@email.com",
     "monsters":  [ ... ],
     "battleStats": {
         "wins":   40,
@@ -65,6 +69,38 @@ Returns:
         {
             "monsterID":  "2345",
             "monsterNo":  66,
+            "assetIDSet": {
+                "texture1ID": 1,
+                "texture2ID": 2,
+                "ios":{
+                    "daeID": 3,
+                    "animationSet": [
+                        {
+                          "name": "attack",
+                          "assetID": 4
+                        },
+                        {
+                          "name": "faint",
+                          "assetID": 5
+                        },
+                        {
+                          "name": "hit",
+                          "assetID": 6
+                        },
+                        {
+                          "name": "intro",
+                          "assetID": 7
+                        },
+                        {
+                          "name": "standing",
+                          "assetID": 8
+                        }
+                      ]
+                    },
+                "android": {
+                    "blendID": 9
+                }
+            },
             "name":       "Machop",
             "type":       "Fighting",
             "hp":         70,
@@ -97,25 +133,55 @@ Returns:
 }
 ```
 
-##### Get user animations by ID
+##### Get a user's assetSet by ID
 ```
-GET /user/{userID}/animations
+GET /user/{userID}/assets
 
 header: "authorization":  <auth_token>
 ```
 ```
 Returns:
 {
-    "animations": [
+    "assets": [
         {
-            "MonsterNo":    66,
-            "AnimationIDs": [2, 3, 4, 5]
+            "Name": "Squirtle",
+            "MonsterNo": 7,
+            "AssetSet": {
+                "texture1ID": 1,
+                "texture2ID": 2,
+                "ios": {
+                    "daeID": 3,
+                    "animationSet": [
+                        {
+                            "name": "attack",
+                            "assetID": 4
+                        },
+                        {
+                            "name": "faint",
+                            "assetID": 5
+                        },
+                        {
+                            "name": "hit",
+                            "assetID": 6
+                        },
+                        {
+                            "name": "intro",
+                            "assetID": 7
+                        },
+                        {
+                            "name": "standing",
+                            "assetID": 8
+                        }
+                    ]
+                },
+                "android": {
+                    "blendID": 9
+                }
+            }
         },
-        {
-            "MonsterNo":    7,
-            "AnimationIDs": [2, 6, 8, 9]
-        }
-    ]
+        .....
+    ],
+    "userID": "1"
 }
 ```
 
@@ -319,6 +385,7 @@ Returns:
 | --------------- | :-------: | ---------
 | ID              | string    | Set once added to a user
 | No              | int       | Monster number in Dex
+| Assets          | AssetIDSet| Set of asset files that correspond to the monster
 | Name            | string    | --
 | Type            | string    | --
 | Hp              | int       | --
@@ -326,6 +393,15 @@ Returns:
 | Defense         | int       | --
 | Attacks         | []Attack  | Array of monster's learned attacks
 | Stats           | Stats     | Monster's battle stats
+
+### AssetIDSet
+
+| Field           | Type      | Description
+| --------------- | :-------: | ---------
+| Texture1ID      | int       | --
+| Texture2ID      | int       | --
+| IOS             | struct    | --
+| Android         | struct    | --
 
 
 ### Stats
