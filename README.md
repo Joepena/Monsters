@@ -46,8 +46,6 @@ Returns:
 ##### Get user data by ID
 ```
 GET /user/{userID}
-
-header: "authorization":  <auth_token>
 ```
 ```
 Returns:
