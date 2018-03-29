@@ -16,7 +16,7 @@
           "type":         "Normal",
           "power":        40,
           "accuracy":     100,
-          "maxPP":        56,
+          "max_pp":       56,
           "animation_id": 4
         },
         {
@@ -26,7 +26,7 @@
           "type":         "Normal",
           "power":        0,
           "accuracy":     100,
-          "maxPP":        48,
+          "max_pp":       48,
           "animation_id": 5
         },
         {
@@ -36,7 +36,7 @@
           "type":         "Water",
           "power":        40,
           "accuracy":     100,
-          "maxPP":        40,
+          "max_pp":       40,
           "animation_id": 6
         },
         {
@@ -46,7 +46,7 @@
           "type":         "Water",
           "power":        40,
           "accuracy":     100,
-          "maxPP":        48,
+          "max_pp":       48,
           "animation_id": 7
         },
       ]
@@ -67,7 +67,7 @@
           "type":         "Normal",
           "power":        0,
           "accuracy":     100,
-          "maxPP":        48,
+          "max_pp":       48,
           "animation_id": 4
         },
         {
@@ -77,7 +77,7 @@
           "type":         "Fighting",
           "power":        80,
           "accuracy":     100,
-          "maxPP":        32,
+          "max_pp":       32,
           "animation_id": 4
         },
         {
@@ -87,7 +87,7 @@
           "type":         "Fighting",
           "power":        50,
           "accuracy":     100,
-          "maxPP":        40,
+          "max_pp":       40,
           "animation_id": 4
         },
         {
@@ -97,7 +97,7 @@
           "type":         "Fighting",
           "power":        65,
           "accuracy":     100,
-          "maxPP":        32,
+          "max_pp":       32,
           "animation_id": 4
         }
       ]
@@ -110,7 +110,7 @@
       "type":         "Normal",
       "power":        40,
       "accuracy":     100,
-      "maxPP":        56,
+      "max_pp":       56,
       "animation_id": 4
     },
     {
@@ -119,7 +119,7 @@
       "type":         "Normal",
       "power":        0,
       "accuracy":     100,
-      "maxPP":        48,
+      "max_pp":       48,
       "animation_id": 5
     },
     {
@@ -128,7 +128,7 @@
       "type":         "Water",
       "power":        40,
       "accuracy":     100,
-      "maxPP":        40,
+      "max_pp":       40,
       "animation_id": 6
     },
     {
@@ -137,7 +137,7 @@
       "type":         "Water",
       "power":        40,
       "accuracy":     100,
-      "maxPP":        48,
+      "max_pp":       48,
       "animation_id": 7
     },
     {
@@ -146,7 +146,7 @@
       "type":         "Normal",
       "power":        0,
       "accuracy":     100,
-      "maxPP":        48,
+      "max_pp":       48,
       "animation_id": 4
     },
     {
@@ -155,7 +155,7 @@
       "type":         "Fighting",
       "power":        80,
       "accuracy":     100,
-      "maxPP":        32,
+      "max_pp":       32,
       "animation_id": 4
     },
     {
@@ -164,7 +164,7 @@
       "type":         "Fighting",
       "power":        50,
       "accuracy":     100,
-      "maxPP":        40,
+      "max_pp":       40,
       "animation_id": 4
     },
     {
@@ -173,7 +173,7 @@
       "type":         "Fighting",
       "power":        65,
       "accuracy":     100,
-      "maxPP":        32,
+      "max_pp":       32,
       "animation_id": 4
     }
   ]
