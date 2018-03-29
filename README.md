@@ -78,6 +78,7 @@ Returns:
                     "type":         "Normal",
                     "power":        50,
                     "accuracy":     100,
+                    "maxPP":        40,
                     "animationID":  2
                 },
                 { ... }
@@ -269,6 +270,7 @@ POST /dex/attack
     "type":         "Normal",
     "power":        50,
     "accuracy":     100,
+    "maxPP":        40,
     "animationID":  2
 }
 
@@ -284,6 +286,7 @@ Returns:
         "type":         "Normal",
         "power":        50,
         "accuracy":     100,
+        "maxPP":        40,
         "animationID":  2
     }
 }
@@ -328,6 +331,20 @@ Returns:
 | Stats           | Stats     | Monster's battle stats
 
 
+### Attack
+> Note: Attacks are located in the `dex` database under the `attacks` collection. 
+
+| Field        | Type      | Description
+| ------------ | :-------: | ---------
+| SlotNo       | int       | Position in monster's attack array, value of 0-3.
+| Name         | string    | --
+| Type         | string    | --
+| Power        | int       | --
+| Accuracy	   | int       | --
+| MaxPP        | int       | Number of times an attack can be used in a battle
+| AnimationID  | int       | Corresponds to animation in .dae
+
+
 ### Stats
 
 | Field           | Type      | Description
@@ -339,16 +356,3 @@ Returns:
 | EnemiesFought   | int       | Number of enemies fought
 | EnemiesDefeated | int       | Number of enemies defeated
 | Faints          | int       | Number of times defeated by a monster
-
-
-### Attack
-> Note: Attacks are located in the `dex` database under the `attacks` collection. 
-
-| Field        | Type      | Description
-| ------------ | :-------: | ---------
-| SlotNo       | int       | Position in monster's attack array, value of 0-3.
-| Name         | string    | --
-| Type         | string    | --
-| Power        | int       | --
-| Accuracy	   | int       | --
-| AnimationID  | int       | Corresponds to animation in .dae
