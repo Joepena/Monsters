@@ -61,6 +61,8 @@ func App() *buffalo.App {
 		userGroup.POST("/monster/attack", addMonsterAttackHandler)
 		userGroup.POST("/battle", addBattleResultHandler)
 
+		app.GET("/leaderboard", leaderboardDataHandler)
+
 		dexGroup := app.Group("/dex")
 		dexGroup.POST("/monster", createMonsterHandler)
 		dexGroup.POST("/attack", createAttackHandler)
