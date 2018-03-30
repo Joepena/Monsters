@@ -75,6 +75,22 @@ func (db *DB) GetUserByAuthToken(token string) (User, error) {
 	return user, err
 }
 
+func (db *DB) GetLeaderboardData() ([]User, error) {
+	c := db.session.DB("auth").C("users")
+	var result []User
+
+	err := c.Find(nil).Select(bson.M{
+		"_id": 1,
+		"email": 1,
+		"battle_stats": 1,
+	}).Sort(
+		"-battle_stats.wins",
+		"battle_stats.losses",
+	).All(&result)
+
+	return result, err
+}
+
 /* Monster */
 func (db *DB) GetMonsterByNo(no int32) (Monster, error) {
 	c := db.session.DB("dex").C("monsters")

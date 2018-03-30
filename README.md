@@ -49,8 +49,6 @@ Returns:
 ##### Get user data by ID
 ```
 GET /user/{userID}
-
-header: "authorization":  <auth_token>
 ```
 ```
 Returns:
@@ -132,7 +130,7 @@ header: "authorization":  <auth_token>
 ```
 Returns:
 {
-    "status": "monster added",
+    "status": "monster added"
 }
 ```
 
@@ -150,7 +148,7 @@ header: "authorization":  <auth_token>
 ```
 Returns:
 {
-    "status": "monster renamed to MaCHOMP",
+    "status": "monster renamed to MaCHOMP"
 }
 ```
 
@@ -195,7 +193,7 @@ header: "authorization":  <auth_token>
 ```
 Returns:
 {
-    "status": "attack added",
+    "status": "attack added"
 }
 ```
 
@@ -217,6 +215,33 @@ Returns:
 }
 ```
 
+### Leaderboard Endpoint
+
+##### Get user metadata
+```
+GET /leaderboard
+```
+```
+Returns:
+{
+    "users": [
+       {
+           "id": "123",
+           "name": "red",
+           "wins": 45,
+           "losses": 32
+       },
+       {
+           "id": "234",
+           "name": "blue",
+           "wins": 42,
+           "losses": 21
+       },
+       { ... }
+    ]
+}
+```
+
 ### Dex Endpoints
 
 ##### Create monster
@@ -229,7 +254,7 @@ POST /dex/monster
     "type":       "Fighting",
     "hp":         70,
     "attack":     80,
-    "defense":    50,
+    "defense":    50
 }
 
 header: "authorization":  <auth_token>
