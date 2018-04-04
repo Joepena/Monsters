@@ -80,7 +80,7 @@
     },
     {
       "monsterID":      "",
-      "no":      66,
+      "monsterNo":      66,
       "assetIDSet": {
         "texture1ID": 10,
         "texture2ID": 11,
