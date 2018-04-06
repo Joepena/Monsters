@@ -56,6 +56,7 @@ func App() *buffalo.App {
 		authGroup.POST("/login", loginHandler)
 
 		userGroup := app.Group("/user")
+		userGroup.Middleware.Skip(authenticateRequest, userDataHandler)
 		userGroup.GET("/{userID}", userDataHandler)
 		userGroup.GET("/{userID}/assets", userAssetDataHandler)
 		userGroup.PUT("/monster", renameMonsterHandler)
@@ -63,6 +64,9 @@ func App() *buffalo.App {
 		userGroup.POST("/monster", addMonsterHandler)
 		userGroup.POST("/monster/attack", addMonsterAttackHandler)
 		userGroup.POST("/battle", addBattleResultHandler)
+
+		app.Middleware.Skip(authenticateRequest, leaderboardDataHandler)
+		app.GET("/leaderboard", leaderboardDataHandler)
 
 		dexGroup := app.Group("/dex")
 		dexGroup.POST("/monster", createMonsterHandler)
