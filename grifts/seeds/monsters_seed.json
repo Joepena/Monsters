@@ -61,7 +61,7 @@
           "name":         "Water Gun",
           "type":         "Water",
           "power":        40,
-          "accuracy":     100,
+          "accuracy":     100
         },
         {
           "slotNo":      3,
