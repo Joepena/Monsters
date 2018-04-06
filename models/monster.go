@@ -36,7 +36,7 @@ type AssetIDSet struct {
 		AnimationSet []AnimationPair `bson:"animation_set" json:"animationSet"`
 	} `bson:"ios" json:"ios"`
 	Android struct{
-		BlendID int `bson:"blend_id" json:"blendID"`
+		AssetID int `bson:"asset_id" json:"assetID"`
 	} `bson:"android" json:"android"`
 }
 

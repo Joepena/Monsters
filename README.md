@@ -73,7 +73,6 @@ Returns:
                 "texture1ID": 1,
                 "texture2ID": 2,
                 "ios":{
-                    "daeID": 3,
                     "animationSet": [
                         {
                           "name": "attack",
@@ -98,7 +97,7 @@ Returns:
                       ]
                     },
                 "android": {
-                    "blendID": 9
+                    "assetID": 9
                 }
             },
             "name":       "Machop",
@@ -114,7 +113,6 @@ Returns:
                     "type":         "Normal",
                     "power":        50,
                     "accuracy":     100,
-                    "animationID":  2
                 },
                 { ... }
             ],
@@ -150,7 +148,6 @@ Returns:
                 "texture1ID": 1,
                 "texture2ID": 2,
                 "ios": {
-                    "daeID": 3,
                     "animationSet": [
                         {
                             "name": "attack",
@@ -175,7 +172,7 @@ Returns:
                     ]
                 },
                 "android": {
-                    "blendID": 9
+                    "assetID": 9
                 }
             }
         },
@@ -334,8 +331,7 @@ POST /dex/attack
     "name":         "Karate Chop",
     "type":         "Normal",
     "power":        50,
-    "accuracy":     100,
-    "animationID":  2
+    "accuracy":     100
 }
 
 header: "authorization":  <auth_token>
@@ -349,8 +345,8 @@ Returns:
         "name":         "Karate Chop",
         "type":         "Normal",
         "power":        50,
-        "accuracy":     100,
-        "animationID":  2
+        "accuracy":     100
+      
     }
 }
 ```
@@ -427,4 +423,3 @@ Returns:
 | Type         | string    | --
 | Power        | int       | --
 | Accuracy	   | int       | --
-| AnimationID  | int       | Corresponds to animation in .dae

@@ -5,8 +5,7 @@
     "name":         "Tackle",
     "type":         "Normal",
     "power":        40,
-    "accuracy":     100,
-    "animationID": 4
+    "accuracy":     100
   },
   {
     "monsterNo":   7,
@@ -14,8 +13,7 @@
     "name":         "Tail Whip",
     "type":         "Normal",
     "power":        0,
-    "accuracy":     100,
-    "animationID": 5
+    "accuracy":     100
   },
   {
     "monsterNo":   7,
@@ -23,8 +21,7 @@
     "name":         "Water Gun",
     "type":         "Water",
     "power":        40,
-    "accuracy":     100,
-    "animationID": 6
+    "accuracy":     100
   },
   {
     "monsterNo":   7,
@@ -32,8 +29,7 @@
     "name":         "Bubble",
     "type":         "Water",
     "power":        40,
-    "accuracy":     100,
-    "animationID": 7
+    "accuracy":     100
   },
   {
     "monsterNo":   66,
@@ -41,8 +37,7 @@
     "name":         "Leer",
     "type":         "Normal",
     "power":        0,
-    "accuracy":     100,
-    "animationID": 4
+    "accuracy":     100
   },
   {
     "monsterNo":   66,
@@ -50,8 +45,7 @@
     "name":         "Low Kick",
     "type":         "Fighting",
     "power":        80,
-    "accuracy":     100,
-    "animation_id": 4
+    "accuracy":     100
   },
   {
     "monsterNo":   66,
@@ -59,8 +53,7 @@
     "name":         "Karate Chop",
     "type":         "Fighting",
     "power":        50,
-    "accuracy":     100,
-    "animationID": 4
+    "accuracy":     100
   },
   {
     "monsterNo":   66,
@@ -68,7 +61,6 @@
     "name":         "Low Sweep",
     "type":         "Fighting",
     "power":        65,
-    "accuracy":     100,
-    "animationID": 4
+    "accuracy":     100
   }
 ]

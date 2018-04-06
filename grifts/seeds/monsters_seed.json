@@ -6,7 +6,6 @@
         "texture1ID": 1,
         "texture2ID": 2,
         "ios":{
-          "daeID": 3,
           "animationSet": [
             {
               "name": "attack",
@@ -31,7 +30,7 @@
           ]
         },
         "android": {
-          "blendID": 9
+          "assetID": 9
         }
       },
       "name":    "Squirtle",
@@ -46,8 +45,7 @@
           "name":         "Tackle",
           "type":         "Normal",
           "power":        40,
-          "accuracy":     100,
-          "animationID": 4
+          "accuracy":     100
         },
         {
           "slotNo":      1,
@@ -55,8 +53,7 @@
           "name":         "Tail Whip",
           "type":         "Normal",
           "power":        0,
-          "accuracy":     100,
-          "animationID": 5
+          "accuracy":     100
         },
         {
           "slotNo":      2,
@@ -65,7 +62,6 @@
           "type":         "Water",
           "power":        40,
           "accuracy":     100,
-          "animationID": 6
         },
         {
           "slotNo":      3,
@@ -73,8 +69,7 @@
           "name":         "Bubble",
           "type":         "Water",
           "power":        40,
-          "accuracy":     100,
-          "animationID": 7
+          "accuracy":     100
         }
       ]
     },
@@ -85,7 +80,6 @@
         "texture1ID": 10,
         "texture2ID": 11,
         "ios":{
-          "daeID": 12,
           "animationSet": [
             {
               "name": "attack",
@@ -110,7 +104,7 @@
           ]
         },
         "android": {
-          "blendID": 18
+          "assetID": 18
         }
       },
       "name":    "Machop",
@@ -125,8 +119,7 @@
           "name":         "Leer",
           "type":         "Normal",
           "power":        0,
-          "accuracy":     100,
-          "animation_id": 4
+          "accuracy":     100
         },
         {
           "slotNo":      1,
@@ -134,8 +127,7 @@
           "name":         "Low Kick",
           "type":         "Fighting",
           "power":        80,
-          "accuracy":     100,
-          "animation_id": 4
+          "accuracy":     100
         },
         {
           "slotNo":      2,
@@ -143,8 +135,7 @@
           "name":         "Karate Chop",
           "type":         "Fighting",
           "power":        50,
-          "accuracy":     100,
-          "animation_id": 4
+          "accuracy":     100
         },
         {
           "slotNo":      3,
@@ -152,8 +143,7 @@
           "name":         "Low Sweep",
           "type":         "Fighting",
           "power":        65,
-          "accuracy":     100,
-          "animation_id": 4
+          "accuracy":     100
         }
       ]
     }

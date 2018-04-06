@@ -10,7 +10,6 @@ type Attack struct {
 	Type        string `bson:"type" json:"type"`
 	Power       int32  `bson:"power" json:"power"`
 	Accuracy    int32  `bson:"accuracy" json:"accuracy"`
-	AnimationID int32  `bson:"animation_id" json:"animationID"`
 }
 
 type AddAttackParams struct {
