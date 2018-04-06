@@ -376,6 +376,15 @@ Returns:
 }
 ```
 
+## AnimationSet
+
+### Textures
+
+| Field        | Type        | Description
+| ------------ | :---------: | ---------
+| texture1ID   | int         | Body
+| texture2ID   | int         | Eyes
+
 ## Database Schema
 
 ### User
