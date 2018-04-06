@@ -76,7 +76,7 @@ func (db *DB) GetUserByAuthToken(token string) (User, error) {
 }
 
 func (db *DB) GetLeaderboardData() ([]User, error) {
-	c := db.session.DB("auth").C("users")
+	c := db.Session.DB("auth").C("users")
 	var result []User
 
 	err := c.Find(nil).Select(bson.M{
