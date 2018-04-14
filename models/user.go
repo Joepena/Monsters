@@ -30,11 +30,15 @@ var emailRegexp = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0
 func (u *User) Create() error {
 	collection := GetDBInstance().Session.DB("auth").C("users")
 
-	//init empty fields
-	u.Monsters = []Monster{}
-	u.BattleStats = BattleStats{
-		Wins:   0,
-		Losses: 0,
+	//init empty fields if not set
+	if len(u.Monsters) < 1 {
+		u.Monsters = []Monster{}
+	}
+	if (u.BattleStats == BattleStats{}) {
+		u.BattleStats = BattleStats{
+			Wins:   0,
+			Losses: 0,
+		}
 	}
 
 	err := u.validate()
