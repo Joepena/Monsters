@@ -11,11 +11,11 @@ import (
 type User struct {
 	ID           string      `bson:"_id"`
 	AuthToken    string      `bson:"auth_token"`
-	Email        string      `bson:"email"`
-	Password     string      `bson:"-"`
+	Email        string      `bson:"email"          json:"email"`
+	Password     string      `bson:"-"              json:"password"`
 	PasswordHash string      `bson:"password_hash"`
-	Monsters     []Monster   `bson:"monsters"`
-	BattleStats  BattleStats `bson:"battle_stats"`
+	Monsters     []Monster   `bson:"monsters"       json:"monsters"`
+	BattleStats  BattleStats `bson:"battle_stats"   json:"battleStats"`
 }
 
 type BattleStats struct {
