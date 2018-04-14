@@ -1,0 +1,393 @@
+{
+  "users": [
+    {
+      "email":    "SuperNerd@email.com",
+      "password": "password",
+      "monsters": [
+        {
+          "no":      7,
+          "name":    "Squirtle w/ a 4.0",
+          "type":    "Water",
+          "hp":      44,
+          "attack":  48,
+          "defense": 65,
+          "stats":   {
+            "hits":            45229,
+            "misses":          24679,
+            "damageDealt":     156778,
+            "damageReceived":  98644,
+            "enemiesFought":   667,
+            "enemiesDefeated": 523,
+            "faints":          154
+          }
+        },
+        {
+          "no":      66,
+          "name":    "Machop w/ a 3.9",
+          "type":    "Fighting",
+          "hp":      70,
+          "attack":  80,
+          "defense": 50,
+          "stats":   {
+            "hits":            40568,
+            "misses":          25348,
+            "damageDealt":     109234,
+            "damageReceived":  87345,
+            "enemiesFought":   470,
+            "enemiesDefeated": 400,
+            "faints":          2
+          }
+        },
+        {
+          "no":      7,
+          "name":    "Low GPA Squirtle",
+          "type":    "Water",
+          "hp":      44,
+          "attack":  48,
+          "defense": 65,
+          "stats":   {
+            "hits":            32345,
+            "misses":          67345,
+            "damageDealt":     50184,
+            "damageReceived":  100458,
+            "enemiesFought":   398,
+            "enemiesDefeated": 200,
+            "faints":          180
+          }
+        }
+      ],
+      "battleStats": {
+        "wins":   102,
+        "losses": 67
+      }
+    },
+    {
+      "email":    "BugCatcher@email.com",
+      "password": "password",
+      "monsters": [
+        {
+          "no":      66,
+          "name":    "Machop",
+          "type":    "Fighting",
+          "hp":      70,
+          "attack":  80,
+          "defense": 50,
+          "stats":   {
+            "hits":            30562,
+            "misses":          20187,
+            "damageDealt":     70253,
+            "damageReceived":  58527,
+            "enemiesFought":   259,
+            "enemiesDefeated": 147,
+            "faints":          160
+          }
+        },
+        {
+          "no":      7,
+          "name":    "Squirtle",
+          "type":    "Water",
+          "hp":      44,
+          "attack":  48,
+          "defense": 65,
+          "stats":   {
+            "hits":            32890,
+            "misses":          22853,
+            "damageDealt":     65109,
+            "damageReceived":  75432,
+            "enemiesFought":   230,
+            "enemiesDefeated": 200,
+            "faints":          133
+          }
+        }
+      ],
+      "battleStats": {
+        "wins":   98,
+        "losses": 83
+      }
+    },
+    {
+      "email":    "Lass@email.com",
+      "password": "password",
+      "monsters": [
+        {
+          "no":      7,
+          "name":    "my lil squirtle",
+          "type":    "Water",
+          "hp":      44,
+          "attack":  48,
+          "defense": 65,
+          "stats":   {
+            "hits":            34958,
+            "misses":          19353,
+            "damageDealt":     19835,
+            "damageReceived":  49682,
+            "enemiesFought":   147,
+            "enemiesDefeated": 102,
+            "faints":          66
+          }
+        },
+        {
+          "no":      66,
+          "name":    "my lil choppie",
+          "type":    "Fighting",
+          "hp":      70,
+          "attack":  80,
+          "defense": 50,
+          "stats":   {
+            "hits":            24058,
+            "misses":          23481,
+            "damageDealt":     10123,
+            "damageReceived":  83345,
+            "enemiesFought":   669,
+            "enemiesDefeated": 20,
+            "faints":          400
+          }
+        }
+      ],
+      "battleStats": {
+        "wins":   89,
+        "losses": 61
+      }
+    },
+    {
+      "email":    "Juggler@email.com",
+      "password": "password",
+      "monsters": [
+        {
+          "no":      66,
+          "name":    "Dexterous Machop",
+          "type":    "Fighting",
+          "hp":      70,
+          "attack":  80,
+          "defense": 50,
+          "stats":   {
+            "hits":            65387,
+            "misses":          25348,
+            "damageDealt":     10234,
+            "damageReceived":  7345,
+            "enemiesFought":   790,
+            "enemiesDefeated": 600,
+            "faints":          400
+          }
+        },
+        {
+          "no":      7,
+          "name":    "Unused Squirtle",
+          "type":    "Water",
+          "hp":      44,
+          "attack":  48,
+          "defense": 65,
+          "stats":   {
+            "hits":            0,
+            "misses":          0,
+            "damageDealt":     0,
+            "damageReceived":  0,
+            "enemiesFought":   0,
+            "enemiesDefeated": 0,
+            "faints":          0
+          }
+        }
+      ],
+      "battleStats": {
+        "wins":   89,
+        "losses": 76
+      }
+    },
+    {
+      "email":    "Lance@email.com",
+      "password": "password",
+      "monsters": [
+        {
+          "no":      7,
+          "name":    "Lonely Squirtle",
+          "type":    "Water",
+          "hp":      44,
+          "attack":  48,
+          "defense": 65,
+          "stats":   {
+            "hits":            154762,
+            "misses":          9380,
+            "damageDealt":     829248,
+            "damageReceived":  629458,
+            "enemiesFought":   489,
+            "enemiesDefeated": 330,
+            "faints":          128
+          }
+        }
+      ],
+      "battleStats": {
+        "wins":   82,
+        "losses": 40
+      }
+    },
+    {
+      "email":    "Fisherman@email.com",
+      "password": "password",
+      "monsters": [
+        {
+          "no":      66,
+          "name":    "Wet Machop",
+          "type":    "Fighting",
+          "hp":      70,
+          "attack":  80,
+          "defense": 50,
+          "stats":   {
+            "hits":            24857,
+            "misses":          14073,
+            "damageDealt":     940259,
+            "damageReceived":  832947,
+            "enemiesFought":   370,
+            "enemiesDefeated": 266,
+            "faints":          166
+          }
+        },
+        {
+          "no":      7,
+          "name":    "Squirtle",
+          "type":    "Water",
+          "hp":      44,
+          "attack":  48,
+          "defense": 65,
+          "stats":   {
+            "hits":            28374,
+            "misses":          19835,
+            "damageDealt":     859723,
+            "damageReceived":  173404,
+            "enemiesFought":   138,
+            "enemiesDefeated": 122,
+            "faints":          6
+          }
+        }
+      ],
+      "battleStats": {
+        "wins":   71,
+        "losses": 80
+      }
+    },
+    {
+      "email":    "Scientist@email.com",
+      "password": "password",
+      "monsters": [
+        {
+          "no":      7,
+          "name":    "Nerdy Squirtle",
+          "type":    "Water",
+          "hp":      44,
+          "attack":  48,
+          "defense": 65,
+          "stats":   {
+            "hits":            18342,
+            "misses":          8592,
+            "damageDealt":     909232,
+            "damageReceived":  438027,
+            "enemiesFought":   581,
+            "enemiesDefeated": 502,
+            "faints":          60
+          }
+        },
+        {
+          "no":      66,
+          "name":    "Dweeby Machop",
+          "type":    "Fighting",
+          "hp":      70,
+          "attack":  80,
+          "defense": 50,
+          "stats":   {
+            "hits":            4,
+            "misses":          200,
+            "damageDealt":     80,
+            "damageReceived":  1493,
+            "enemiesFought":   80,
+            "enemiesDefeated": 0,
+            "faints":          80
+          }
+        }
+      ],
+      "battleStats": {
+        "wins":   70,
+        "losses": 83
+      }
+    },
+    {
+      "email":    "Youngster@email.com",
+      "password": "password",
+      "monsters": [
+        {
+          "no":      66,
+          "name":    "yung machop",
+          "type":    "Fighting",
+          "hp":      70,
+          "attack":  80,
+          "defense": 50,
+          "stats":   {
+            "hits":            31957,
+            "misses":          25348,
+            "damageDealt":     99238,
+            "damageReceived":  87345,
+            "enemiesFought":   223,
+            "enemiesDefeated": 209,
+            "faints":          32
+          }
+        }
+      ],
+      "battleStats": {
+        "wins":   45,
+        "losses": 23
+      }
+    },
+    {
+      "email": "PokeManiac@email.com",
+      "password": "password",
+      "monsters": [
+        {
+          "no":      7,
+          "name":    "Wildin' Squirtle",
+          "type":    "Water",
+          "hp":      44,
+          "attack":  48,
+          "defense": 65,
+          "stats":   {
+            "hits":            200000,
+            "misses":          59000,
+            "damageDealt":     90000,
+            "damageReceived":  18324,
+            "enemiesFought":   41,
+            "enemiesDefeated": 40,
+            "faints":          14
+          }
+        }
+      ],
+      "battleStats": {
+        "wins":   22,
+        "losses": 15
+      }
+    },
+    {
+      "email":    "Cooltrainer@email.com",
+      "password": "password",
+      "monsters": [
+        {
+          "no":      66,
+          "name":    "C00l Machop",
+          "type":    "Fighting",
+          "hp":      70,
+          "attack":  80,
+          "defense": 50,
+          "stats":   {
+            "hits":            4068,
+            "misses":          2548,
+            "damageDealt":     10234,
+            "damageReceived":  8345,
+            "enemiesFought":   47,
+            "enemiesDefeated": 40,
+            "faints":          20
+          }
+        }
+      ],
+      "battleStats": {
+        "wins":   20,
+        "losses": 19
+      }
+    }
+  ]
+}
