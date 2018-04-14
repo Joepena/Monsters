@@ -1,0 +1,66 @@
+[
+  {
+    "monsterNo":   7,
+    "assetID": -1,
+    "name":         "Tackle",
+    "type":         "Normal",
+    "power":        40,
+    "accuracy":     100
+  },
+  {
+    "monsterNo":   7,
+    "assetID": -1,
+    "name":         "Tail Whip",
+    "type":         "Normal",
+    "power":        0,
+    "accuracy":     100
+  },
+  {
+    "monsterNo":   7,
+    "assetID": -1,
+    "name":         "Water Gun",
+    "type":         "Water",
+    "power":        40,
+    "accuracy":     100
+  },
+  {
+    "monsterNo":   7,
+    "assetID": -1,
+    "name":         "Bubble",
+    "type":         "Water",
+    "power":        40,
+    "accuracy":     100
+  },
+  {
+    "monsterNo":   66,
+    "assetID": -1,
+    "name":         "Leer",
+    "type":         "Normal",
+    "power":        0,
+    "accuracy":     100
+  },
+  {
+    "monsterNo":   66,
+    "assetID": -1,
+    "name":         "Low Kick",
+    "type":         "Fighting",
+    "power":        80,
+    "accuracy":     100
+  },
+  {
+    "monsterNo":   66,
+    "assetID": -1,
+    "name":         "Karate Chop",
+    "type":         "Fighting",
+    "power":        50,
+    "accuracy":     100
+  },
+  {
+    "monsterNo":   66,
+    "assetID": -1,
+    "name":         "Low Sweep",
+    "type":         "Fighting",
+    "power":        65,
+    "accuracy":     100
+  }
+]

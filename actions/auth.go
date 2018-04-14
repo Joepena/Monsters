@@ -10,19 +10,19 @@ import (
 )
 
 type AuthClaims struct {
-	UserId string `json:"user_id"`
+	UserId string `json:"user_email"`
 	// Auth payload in here
 	jwt.StandardClaims
 }
 
-func getAuthToken(c buffalo.Context) (string, error) {
+func getAuthToken(u *models.User) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
 
 	// Set token claims
 	//claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
-	claims["user_id"] = c.Request().Form.Get("email")
+	claims["user_email"] = u.Email
 
 	tokenString, _ := token.SignedString(SERVER_SECRET)
 
@@ -37,13 +37,12 @@ func createUserHandler(c buffalo.Context) error {
 		return errors.WithStack(err)
 	}
 
-	token, err := getAuthToken(c)
+	token, err := getAuthToken(u)
 	if err != nil {
 		log.Error(err)
 	}
 
 	u.AuthToken = token
-
 	err = u.Create()
 
 	if err != nil {
@@ -56,6 +55,7 @@ func createUserHandler(c buffalo.Context) error {
 		"token": u.AuthToken,
 		"email": u.Email,
 		"monsters": u.Monsters,
+		"battleStats": u.BattleStats,
 	}))
 }
 

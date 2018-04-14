@@ -21,7 +21,7 @@ var (
 )
 
 type DB struct {
-	session *mgo.Session
+	Session *mgo.Session
 	logger  *log.Entry
 }
 
@@ -38,7 +38,7 @@ type WriteRequest struct {
 }
 
 func (db *DB) Write(wR *WriteRequest) {
-	c := db.session.DB(wR.DbName).C(wR.CollectionName) // maybe can cache this later?
+	c := db.Session.DB(wR.DbName).C(wR.CollectionName) // maybe can cache this later?
 	err := c.Insert(wR.Data)
 	if err != nil {
 		log.Fatal("failed to insert data into db. dbName: %v, collectionName: %v, data: %v, error: %v", wR.DbName, wR.CollectionName, wR.Data, err)
@@ -50,7 +50,7 @@ func (db *DB) CreateCappedCollection(dbName string, collectionName string, capac
 		Capped:   true,
 		MaxBytes: capacity,
 	}
-	err := db.session.DB(dbName).C(collectionName).Create(collectionInfo)
+	err := db.Session.DB(dbName).C(collectionName).Create(collectionInfo)
 	if err != nil {
 		log.WithField("Function", "CreateCappedCollection").Error(err)
 	}
@@ -58,7 +58,7 @@ func (db *DB) CreateCappedCollection(dbName string, collectionName string, capac
 
 /* User */
 func (db *DB) GetUserById(id string) (User, error) {
-	c := db.session.DB("auth").C("users")
+	c := db.Session.DB("auth").C("users")
 
 	var user User
 	err := c.Find(bson.M{"_id": id}).One(&user)
@@ -67,7 +67,7 @@ func (db *DB) GetUserById(id string) (User, error) {
 }
 
 func (db *DB) GetUserByAuthToken(token string) (User, error) {
-	c := db.session.DB("auth").C("users")
+	c := db.Session.DB("auth").C("users")
 
 	var user User
 	err := c.Find(bson.M{"auth_token": token}).One(&user)
@@ -76,7 +76,7 @@ func (db *DB) GetUserByAuthToken(token string) (User, error) {
 }
 
 func (db *DB) GetLeaderboardData() ([]User, error) {
-	c := db.session.DB("auth").C("users")
+	c := db.Session.DB("auth").C("users")
 	var result []User
 
 	err := c.Find(nil).Select(bson.M{
@@ -93,7 +93,7 @@ func (db *DB) GetLeaderboardData() ([]User, error) {
 
 /* Monster */
 func (db *DB) GetMonsterByNo(no int32) (Monster, error) {
-	c := db.session.DB("dex").C("monsters")
+	c := db.Session.DB("dex").C("monsters")
 
 	var monster Monster
 	err := c.Find(bson.M{"no": no}).One(&monster)
@@ -103,7 +103,7 @@ func (db *DB) GetMonsterByNo(no int32) (Monster, error) {
 
 /* Attack */
 func (db *DB) GetAttackByID(id string) (Attack, error) {
-	c := db.session.DB("dex").C("attacks")
+	c := db.Session.DB("dex").C("attacks")
 
 	var attack Attack
 	err := c.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&attack)
@@ -115,7 +115,7 @@ func (db *DB) GetAttackByID(id string) (Attack, error) {
 func GetDBInstance() *DB {
 	once.Do(func() {
 		dbInstance = DB{
-			session: establishMongoDBSession(),
+			Session: establishMongoDBSession(),
 			logger:  log.WithField("Component", "DB"),
 		}
 	})
@@ -130,7 +130,7 @@ func establishMongoDBSession() *mgo.Session {
 	if strings.EqualFold(ON_ATLAS, "true") { // if we are on MongoDB Atlas dial with TLS connec info
 		dialInfo, err := mgo.ParseURL(MONGOD_URL)
 		if err != nil {
-			panic(fmt.Sprintf("failed to establish session to %v. error: %v", MONGOD_URL, err.Error()))
+			panic(fmt.Sprintf("failed to establish Session to %v. error: %v", MONGOD_URL, err.Error()))
 		}
 
 		tlsConfig := &tls.Config{}
@@ -140,17 +140,17 @@ func establishMongoDBSession() *mgo.Session {
 		}
 		session, err = mgo.DialWithInfo(dialInfo)
 		if err != nil {
-			panic(fmt.Sprintf("failed to establish session to %v. error: %v", MONGOD_URL, err.Error()))
+			panic(fmt.Sprintf("failed to establish Session to %v. error: %v", MONGOD_URL, err.Error()))
 		}
 
 	} else {
 		session, err = mgo.Dial(MONGOD_URL)
 		if err != nil {
-			panic(fmt.Sprintf("failed to establish session to %v. error: %v", MONGOD_URL, err.Error()))
+			panic(fmt.Sprintf("failed to establish Session to %v. error: %v", MONGOD_URL, err.Error()))
 		}
 	}
 
-	// Optional. Switch the session to a monotonic behavior.
+	// Optional. Switch the Session to a monotonic behavior.
 	session.SetMode(mgo.Monotonic, true)
 
 	return session

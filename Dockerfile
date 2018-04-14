@@ -8,6 +8,7 @@ WORKDIR $GOPATH/src/github.com/joepena/monsters
 ADD . .
 #RUN go get -u -v $(go list ./... | grep -v /vendor/)
 RUN ./scripts/deps.sh
+
 RUN buffalo build --static -o /bin/app
 
 FROM alpine

@@ -10,3 +10,5 @@ node_modules/
 public/assets/
 monsters
 .vscode/
+data/*
+!data/.gitkeep

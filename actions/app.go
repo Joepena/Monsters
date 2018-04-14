@@ -10,17 +10,13 @@ import (
 	"github.com/joepena/monsters/models"
 )
 
-// TODO: remove this from source later
-var SERVER_SECRET = []byte(envy.Get("SERVER_SECRET","super_secret"))
+var (
+	ENV = envy.Get("GO_ENV", "development")
+	SERVER_SECRET = []byte(envy.Get("SERVER_SECRET","super_secret"))
+	ASSET_DIR = envy.Get("ASSET_DIR","./data")
+	app *buffalo.App
+)
 
-// ENV is used to help switch settings based on where the
-// application is being run. Default is "development".
-var ENV = envy.Get("GO_ENV", "development")
-var app *buffalo.App
-
-// App is where all routes and middleware for buffalo
-// should be defined. This is the nerve center of your
-// application.
 func App() *buffalo.App {
 	if app == nil {
 		// init DB
@@ -31,6 +27,14 @@ func App() *buffalo.App {
 			SessionStore: sessions.Null{},
 			SessionName:  "_monsters_session",
 		})
+
+		app.Use(func (next buffalo.Handler) buffalo.Handler {
+			return func(c buffalo.Context) error {
+				// change the context to MonsterContext
+				return next(MonsterContext{c})
+			}
+		})
+
 		// Automatically redirect to SSL
 		app.Use(ssl.ForceSSL(secure.Options{
 			SSLRedirect:     ENV == "production",
@@ -46,7 +50,6 @@ func App() *buffalo.App {
 
 		// middleware
 		app.Use(authenticateRequest)
-
 		authGroup := app.Group("/auth")
 		authGroup.Middleware.Skip(authenticateRequest, createUserHandler, loginHandler) // do not verify a token for these registration/login handlers
 		authGroup.POST("/user", createUserHandler)
@@ -55,7 +58,7 @@ func App() *buffalo.App {
 		userGroup := app.Group("/user")
 		userGroup.Middleware.Skip(authenticateRequest, userDataHandler)
 		userGroup.GET("/{userID}", userDataHandler)
-		userGroup.GET("/{userID}/animations", userAnimationsHandler)
+		userGroup.GET("/{userID}/assets", userAssetDataHandler)
 		userGroup.PUT("/monster", renameMonsterHandler)
 		userGroup.PUT("/monster/stats", updateMonsterStatsHandler)
 		userGroup.POST("/monster", addMonsterHandler)
@@ -68,6 +71,8 @@ func App() *buffalo.App {
 		dexGroup := app.Group("/dex")
 		dexGroup.POST("/monster", createMonsterHandler)
 		dexGroup.POST("/attack", createAttackHandler)
+
+		app.GET("/download/{assetID}", downloadHandler)
 	}
 
 	return app

@@ -5,8 +5,6 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"strings"
 	"github.com/pkg/errors"
-	"gopkg.in/mgo.v2"
-	"strconv"
 	"regexp"
 )
 
@@ -25,26 +23,19 @@ type BattleStats struct {
 	Losses int32 `bson:"losses" json:"losses"`
 }
 
-type AddAttackParams struct {
-	AttackID  string `json:"attackID"`
-	MonsterID string `json:"monsterID"`
-	SlotNo    int32  `json:"slotNo"`
-}
-
-type AuthCounter struct {
-	AccountCount int` bson:"account_count"`
-}
-
-type MonsterCounter struct {
-	MonsterCount int `bson:"monster_count"`
-}
-
 var emailRegexp = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 
 // Create wraps up the pattern of encrypting the password and
 // running validations.
 func (u *User) Create() error {
-	collection := GetDBInstance().session.DB("auth").C("users")
+	collection := GetDBInstance().Session.DB("auth").C("users")
+
+	//init empty fields
+	u.Monsters = []Monster{}
+	u.BattleStats = BattleStats{
+		Wins:   0,
+		Losses: 0,
+	}
 
 	err := u.validate()
 	if err != nil {
@@ -52,7 +43,7 @@ func (u *User) Create() error {
 	}
 
 	// generate DB id
-	id, err := generateID()
+	id, err := generateAccountID()
 	if err != nil {
 		return err
 	}
@@ -67,7 +58,7 @@ func (u *User) Create() error {
 }
 
 func (u *User) Authenticate() bool {
-	collection := GetDBInstance().session.DB("auth").C("users")
+	collection := GetDBInstance().Session.DB("auth").C("users")
 
 	passwordToAuth := u.Password
 	email := strings.ToLower(u.Email)
@@ -99,7 +90,7 @@ func (u *User) validate() error {
 		return errors.New("provide a valid email address")
 	}
 
-	collection := GetDBInstance().session.DB("auth").C("users")
+	collection := GetDBInstance().Session.DB("auth").C("users")
 	var testU User
 
 	//check if email is already in DB
@@ -113,26 +104,9 @@ func (u *User) validate() error {
 	return nil
 }
 
-func generateID() (string, error) {
-	collection := GetDBInstance().session.DB("auth").C("counters")
-	change := mgo.Change{
-		Update: bson.M{"$inc": bson.M{"account_count": 1}},
-		ReturnNew: false,
-	}
-
-	var counterDoc AuthCounter
-
-	_, err := collection.Find(bson.M{"_id":"0"}).Apply(change, &counterDoc)
-	if err != nil {
-		return "", err
-	}
-
-	return strconv.Itoa(counterDoc.AccountCount), nil
-}
-
 func (u *User) AddMonster(no int32) error {
 	db := GetDBInstance()
-	c := db.session.DB("auth").C("users")
+	c := db.Session.DB("auth").C("users")
 
 	monster, err := db.GetMonsterByNo(no)
 	if err != nil {
@@ -151,7 +125,7 @@ func (u *User) AddMonster(no int32) error {
 }
 
 func (u *User) RenameMonster(m *Monster) error {
-	c := GetDBInstance().session.DB("auth").C("users")
+	c := GetDBInstance().Session.DB("auth").C("users")
 
 	query := bson.M{"_id": u.ID, "monsters.id": m.ID}
 	update := bson.M{"$set": bson.M{"monsters.$.name": m.Name}}
@@ -159,7 +133,7 @@ func (u *User) RenameMonster(m *Monster) error {
 }
 
 func (u *User) UpdateMonsterStats(m *Monster) error {
-	c := GetDBInstance().session.DB("auth").C("users")
+	c := GetDBInstance().Session.DB("auth").C("users")
 
 	query := bson.M{"_id": u.ID, "monsters.id": m.ID}
 	update := bson.M{"$inc": bson.M{
@@ -177,7 +151,7 @@ func (u *User) UpdateMonsterStats(m *Monster) error {
 
 func (u *User) ReplaceMonsterAttack(a *AddAttackParams) error {
 	db := GetDBInstance()
-	c := db.session.DB("auth").C("users")
+	c := db.Session.DB("auth").C("users")
 
 	attack, err := db.GetAttackByID(a.AttackID)
 	if err != nil {
@@ -202,26 +176,10 @@ func (u *User) ReplaceMonsterAttack(a *AddAttackParams) error {
 	return c.Update(query, update)
 }
 
-func generateMonsterID() (string, error) {
-	c := GetDBInstance().session.DB("dex").C("counters")
-	change := mgo.Change{
-		Update: bson.M{"$inc": bson.M{"monster_count": 1}},
-		ReturnNew: false,
-	}
-
-	var counterDoc MonsterCounter
-
-	_, err := c.Find(bson.M{"_id": "monster_counter"}).Apply(change, &counterDoc)
-	if err != nil {
-		return "", err
-	}
-
-	return strconv.Itoa(counterDoc.MonsterCount), nil
-}
 
 func (u *User) AddBattleResult(b *BattleStats) error {
 	db := GetDBInstance()
-	c := db.session.DB("auth").C("users")
+	c := db.Session.DB("auth").C("users")
 
 	query := bson.M{"_id": u.ID}
 	update := bson.M{"$inc": bson.M{
@@ -230,3 +188,4 @@ func (u *User) AddBattleResult(b *BattleStats) error {
 	}}
 	return c.Update(query, update)
 }
+
