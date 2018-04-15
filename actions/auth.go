@@ -15,7 +15,7 @@ type AuthClaims struct {
 	jwt.StandardClaims
 }
 
-func getAuthToken(u *models.User) (string, error) {
+func GetAuthToken(u *models.User) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
@@ -37,7 +37,7 @@ func createUserHandler(c buffalo.Context) error {
 		return errors.WithStack(err)
 	}
 
-	token, err := getAuthToken(u)
+	token, err := GetAuthToken(u)
 	if err != nil {
 		log.Error(err)
 	}

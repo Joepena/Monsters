@@ -5,16 +5,16 @@ import (
 )
 
 type Monster struct {
-	ID		string   `bson:"id" json:"monsterID"` //not _id, set when added to a user
-	No      int32    `bson:"no" json:"monsterNo"`
+	ID		string     `bson:"id"           json:"monsterID"` //not _id, set when added to a user
+	No      int32      `bson:"no"           json:"monsterNo"`
 	Assets  AssetIDSet `bson:"asset_id_set" json:"assetIDSet"`
-	Name    string   `bson:"name" json:"name"`
-	Type    string   `bson:"type" json:"type"`
-	Hp      int32    `bson:"hp" json:"hp"`
-	Attack  int32    `bson:"attack" json:"attack"`
-	Defense int32    `bson:"defense" json:"defense"`
-	Attacks []Attack `bson:"attacks" json:"attacks"`
-	Stats   Stats    `bson:"stats"   json:"stats"`
+	Name    string     `bson:"name"         json:"name"`
+	Type    string     `bson:"type"         json:"type"`
+	Hp      int32      `bson:"hp"           json:"hp"`
+	Attack  int32      `bson:"attack"       json:"attack"`
+	Defense int32      `bson:"defense"      json:"defense"`
+	Attacks []Attack   `bson:"attacks"      json:"attacks"`
+	Stats   Stats      `bson:"stats"        json:"stats"`
 }
 
 type Stats struct {

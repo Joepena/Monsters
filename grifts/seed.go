@@ -4,6 +4,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/markbates/grift/grift"
 	"github.com/joepena/monsters/models"
+	"github.com/joepena/monsters/actions"
 	"gopkg.in/mgo.v2/bson"
 	"io/ioutil"
 	"encoding/json"
@@ -25,6 +26,16 @@ var _ = grift.Namespace("seed", func() {
 	grift.Add("dex", func(c *grift.Context) error {
 		db := models.GetDBInstance()
 		err := InsertToDex(db, "./grifts/seeds/monsters_seed.json", "./grifts/seeds/attacks_seed.json")
+		if err != nil {
+			log.Error(err)
+		}
+		return nil
+	})
+
+	grift.Desc("users", "Seed fake users for leaderboard")
+	grift.Add("users", func(c *grift.Context) error {
+		db := models.GetDBInstance()
+		err := InsertToUsers(db, "./grifts/seeds/users_seed.json")
 		if err != nil {
 			log.Error(err)
 		}
@@ -104,5 +115,34 @@ func InsertToDex(db *models.DB, monsterSeed string, attackSeed string) interface
 	}
 
 	log.Info("Successfully seeded attacks into DB")
+	return nil
+}
+
+func InsertToUsers(db *models.DB, userSeed string) interface{} {
+	f, err := ioutil.ReadFile(userSeed)
+	if err != nil {
+		return err
+	}
+
+	var users[] models.User
+	err = json.Unmarshal(f, &users)
+	if err != nil {
+		return err
+	}
+
+	for _, u := range users {
+		token, err := actions.GetAuthToken(&u)
+		if err != nil {
+			return err
+		}
+		u.AuthToken = token
+
+		err = u.Create()
+		if err != nil {
+			return err
+		}
+	}
+	log.Info("Successfully seeded test users into DB")
+
 	return nil
 }
